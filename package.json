@@ -8,7 +8,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "type-check": "tsc --noEmit",
-    "test": "node test/transactions_test.js && node test/categories_test.js && node test/accounts_separation_test.js && node test/dashboard_summary_test.js && node test/budget_rules_test.js && node test/budget_alerts_test.js && node test/budget_chart_test.js && node test/profit_first_rules_test.js && node test/profit_first_auto_allocation_test.js"
+    "test": "node test/transactions_test.js && node test/categories_test.js && node test/accounts_separation_test.js && node test/dashboard_summary_test.js && node test/budget_rules_test.js && node test/budget_alerts_test.js && node test/budget_chart_test.js && node test/profit_first_rules_test.js && node test/profit_first_auto_allocation_test.js && node test/business_cashflow_report_test.js"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^7.18.18",
