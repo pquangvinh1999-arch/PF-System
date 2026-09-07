@@ -61,6 +61,7 @@ export interface Budget {
   allocated_percentage: number;
   allocated_amount: number;
   group?: BudgetGroup;
+  budget_group?: BudgetGroup;
   spent_amount?: number;
   created_at: string;
 }

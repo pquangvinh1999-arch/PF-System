@@ -1,11 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, ViewStyle } from "react-native";
+import { View, Text, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { Colors, BorderRadius, Spacing, Typography } from "../constants/theme";
 
 interface BadgeProps {
   label: string;
   type?: "primary" | "accent" | "business" | "success" | "warning" | "danger";
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
 }
 
 export const Badge: React.FC<BadgeProps> = ({ label, type = "primary", style }) => {

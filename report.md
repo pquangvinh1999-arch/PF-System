@@ -32,3 +32,39 @@
 - **Bằng chứng**: Build type-check thành công (`tsc --noEmit`), bộ điều hướng type-safe, xác thực từ Subagent-QC `a139c219-3538-4665-ab11-f7319617927a`.
 - **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 0.5.
 - **Ghi chú**: **PHASE 0: SETUP DỰ ÁN HOÀN TẤT 100%**. Tự động chuyển tiếp sang Phase 1.
+
+## [2026-09-07 07:53:45Z] — Task: 1.1 — ✅ PASS
+- **Mô tả task**: Triển khai hoàn chỉnh màn hình Onboarding (`src/features/onboarding/screens/OnboardingScreen.tsx`) cho phép người dùng khởi tạo tên tài khoản, nhập đa nguồn thu nhập (lương cá nhân, lương vợ/chồng, doanh thu kinh doanh/shop), thêm/sửa/xóa nguồn thu, phân loại loại thu nhập (`fixed_salary`, `business_revenue`, `other`), và thiết lập số dư ban đầu tách biệt cho 2 ví (Cá nhân và Kinh doanh). Đồng bộ dữ liệu vào SQLite qua `UsersDao`, `IncomeSourcesDao`, `AccountsDao` và cập nhật Zustand store, chuyển hướng mượt mà sang `MainTabs/Dashboard`.
+- **Bằng chứng**: Type check `tsc --noEmit` thoát mã 0, xác thực độc lập từ Subagent-QC `a5f5921a-bac0-4714-b74c-acb77a32f744`.
+- **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 1.1 (Build & Type check, Functional completeness, Schema & Data integrity, UI/Design tokens, Regression check).
+- **Ghi chú**: Đã hoàn tất Task 1.1. Tự động chuyển tiếp sang Task 1.2: CRUD Transaction.
+
+## [2026-09-07 07:59:40Z] — Task: 1.2 — ✅ PASS
+- **Mô tả task**: Xây dựng toàn bộ hệ thống CRUD Transaction gồm DAO SQLite (`src/db/transactionsDao.ts`) với cơ chế tự động tính toán lại số dư tài khoản chính xác 100%, component hiển thị `TransactionRow.tsx`, modal nhập liệu/chỉnh sửa/xóa `TransactionFormModal.tsx`, tích hợp quản lý trạng thái qua Zustand store (`useAppStore.ts`) và gắn kết vào màn hình `DashboardScreen.tsx`. Hỗ trợ đầy đủ 3 loại giao dịch: Chi tiêu (expense), Thu nhập (income), Chuyển khoản (transfer) giữa các ví.
+- **Bằng chứng**: Type check `tsc --noEmit` thoát mã 0, bộ unit tests toán số dư tài khoản `npm test` (`node test/transactions_test.js`) PASS 100%, xác thực độc lập từ Subagent-QC `0bba5a02-382e-44f9-ba8e-16d12497893d`.
+- **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 1.2 (Build & Type check, Unit test pass, Functional completeness, UI & Design tokens, Schema & Data integrity, Regression check).
+- **Ghi chú**: Đã hoàn tất Task 1.2. Tự động chuyển tiếp sang Task 1.3: Phân loại Category.
+
+## [2026-09-07 08:03:52Z] — Task: 1.3 — ✅ PASS
+- **Mô tả task**: Xây dựng bộ từ điển và hệ thống phân loại danh mục Category chuẩn (`src/constants/categories.ts`) ánh xạ trực tiếp đến các nhóm ngân sách 50/30/20 (Thiết yếu - Needs, Cá nhân - Wants, Tiết kiệm - Savings) và Dòng tiền kinh doanh (Business/Profit First). Tách biệt scope danh mục chi tiêu/thu nhập giữa Ví Cá nhân và Ví Kinh doanh. Tích hợp icon emoji, màu sắc trực quan vào `TransactionRow`, modal nhập liệu `TransactionFormModal`, thanh lọc danh mục tương tác ngang và bảng phân bổ chi tiêu thực tế (Category Breakdown with Progress Bar) tại `DashboardScreen.tsx`.
+- **Bằng chứng**: Type check `tsc --noEmit` thoát mã 0, bộ unit test `test/categories_test.js` và `test/transactions_test.js` PASS 100%, xác thực độc lập từ Subagent-QC `f05e86d8-020f-447b-81b1-f119468c6ecf`.
+- **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 1.3 (Build & Type check pass, Unit test pass, Functional completeness, UI & Design tokens, Schema & Data integrity, Regression check).
+- **Ghi chú**: Đã hoàn tất Task 1.3. Tự động chuyển tiếp sang Task 1.4: Tách Personal/Business Account.
+
+## [2026-09-07 08:07:16Z] — Task: 1.4 — ✅ PASS
+- **Mô tả task**: Triển khai trọn vẹn nguyên tắc tách biệt 100% hai tài khoản Cá nhân và Kinh doanh theo `PLAN.md` và `SKILLS.md` Nhóm B. Xây dựng component `BalanceCard.tsx` hiển thị 2 biến thể riêng biệt: Cá nhân (`Colors.primary` #0F6E5B, icon ví, badge primary) và Kinh doanh (`Colors.businessTag` #4A5FD1, icon shop, badge business). Nâng cấp màn hình `AccountsScreen.tsx` thành trung tâm quản lý ví với bộ lọc tab (Tất cả / Ví Cá nhân / Ví Kinh doanh), sổ cái giao dịch độc lập cho từng ví, cùng thao tác chuyển quỹ nội bộ (rút lợi nhuận shop / cấp vốn).
+- **Bằng chứng**: Type check `tsc --noEmit` thoát mã 0, bộ 3 bài unit test `accounts_separation_test.js`, `categories_test.js`, `transactions_test.js` PASS 100%, xác thực độc lập từ Subagent-QC `19542292-60f4-49af-b8f1-a5a5a1bffe2d`.
+- **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 1.4 (Build & Type check pass, Unit test pass, Functional completeness, UI & Design tokens, Schema & Data integrity, Regression check).
+- **Ghi chú**: Đã hoàn tất Task 1.4. Tự động chuyển tiếp sang Task 1.5: Dashboard tổng quan.
+
+## [2026-09-07 08:10:03Z] — Task: 1.5 — ✅ PASS
+- **Mô tả task**: Nâng cấp toàn diện màn hình `DashboardScreen.tsx` thành trung tâm điều khiển dòng tiền chuẩn tài chính cá nhân. Tích hợp bộ chọn tháng `MonthSelector` (điều hướng linh hoạt qua lại các tháng và năm), Khối tóm tắt dòng tiền tháng (`SummaryCard`: Tổng thu nhập +, Tổng chi tiêu -, Dòng tiền ròng / Tiết kiệm thặng dư, Tỷ lệ tích lũy % kèm badge trạng thái), 2 thẻ số dư ví riêng biệt (`personalCard` và `businessCard`), bộ lọc danh mục và danh sách giao dịch tháng, phân bổ chi tiêu thực tế theo danh mục (Category Breakdown Progress Bar), và các thẻ chức năng nhanh (Quick Feature Tiles: Lịch chi tiêu, Quản lý ví, Báo cáo, Cài đặt).
+- **Bằng chứng**: Type check `tsc --noEmit` thoát mã 0, toàn bộ 4 bộ unit test (`test/transactions_test.js`, `test/categories_test.js`, `test/accounts_separation_test.js`, `test/dashboard_summary_test.js`) PASS 100%, xác thực độc lập từ Subagent-QC `725da115-cd46-4cd0-9902-63f1cc6cea58`.
+- **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 1.5 (Build pass, Unit test pass, Functional completeness, UI & Design tokens, Schema & Data integrity, Regression check).
+- **Ghi chú**: **PHASE 1: CORE: NHẬP LIỆU THU CHI HOÀN TẤT 100%**. Tự động chuyển tiếp ngay sang Phase 2 Task 2.1: Tạo ngân sách theo % tùy chỉnh.
+
+## [2026-09-07 08:15:20Z] — Task: 2.1 — ✅ PASS
+- **Mô tả task**: Triển khai module Ngân sách 50/30/20 tùy biến tỷ lệ phần trăm theo nhu cầu thực tế: Thiết yếu (Needs), Cá nhân & Linh hoạt (Wants), Tiết kiệm & Tích lũy (Savings). Xây dựng `BudgetsDao` lưu trữ quy tắc ngân sách vào SQLite (`budgets`), dịch vụ tính toán dòng tiền `BudgetService.calculateGroupStatus`, component `BudgetProgressBar` trực quan kèm cảnh báo ngưỡng, modal cấu hình `BudgetConfigModal` hỗ trợ các preset chuẩn (50/30/20, 40/20/40, 60/25/15) và tùy biến tự do với cơ chế xác thực tổng tỷ lệ 100%. Tích hợp trọn vẹn vào `DashboardScreen.tsx` và Zustand store.
+- **Bằng chứng**: Type check `tsc --noEmit` mã thoát 0, 5/5 bộ unit test (`test/transactions_test.js`, `test/categories_test.js`, `test/accounts_separation_test.js`, `test/dashboard_summary_test.js`, `test/budget_rules_test.js`) PASS 100% (20/20 test cases), xác thực độc lập từ Subagent-QC `b8c51b23-49f4-4d37-bd9b-18aa196067b8`.
+- **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 2.1 (Build & Type check pass, Unit test suite pass, Functional completeness, UI & Design tokens, Schema & Data integrity, Regression check).
+- **Ghi chú**: Đã hoàn tất Task 2.1. Tự động chuyển tiếp sang Task 2.2: Cảnh báo vượt ngân sách.

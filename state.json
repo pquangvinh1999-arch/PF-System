@@ -1,8 +1,8 @@
 {
   "project": "Vén - App Quản lý Tài chính Cá nhân",
-  "last_updated": "2026-09-07T07:45:39Z",
-  "current_phase": "phase_1_core_input",
-  "current_task": "1.1",
+  "last_updated": "2026-09-07T08:15:50Z",
+  "current_phase": "phase_2_budget",
+  "current_task": "2.2",
   "phases": [
     {
       "id": "phase_0_setup",
@@ -39,49 +39,49 @@
     {
       "id": "phase_1_core_input",
       "name": "Core: Nhập liệu thu chi",
-      "status": "in_progress",
+      "status": "done",
       "tasks": [
         {
           "id": "1.1",
           "name": "Onboarding nhập nguồn thu nhập",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "1.2",
           "name": "CRUD Transaction",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "1.3",
           "name": "Phân loại Category",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "1.4",
           "name": "Tách Personal/Business Account",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "1.5",
           "name": "Dashboard tổng quan",
-          "status": "pending"
+          "status": "done"
         }
       ]
     },
     {
       "id": "phase_2_budget",
       "name": "Budgeting Module (50/30/20)",
-      "status": "pending",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "2.1",
           "name": "Tạo ngân sách theo % tùy chỉnh",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "2.2",
           "name": "Cảnh báo vượt ngân sách",
-          "status": "pending"
+          "status": "in_progress"
         },
         {
           "id": "2.3",
@@ -264,5 +264,5 @@
   "blockers": [],
   "learning_log_ref": "LEARNING.md",
   "report_log_ref": "REPORT.md",
-  "notes_for_next_session": "Phase 0 hoàn tất 100%. Tự động kích hoạt Phase 1 Task 1.1: Onboarding nhập nguồn thu nhập."
+  "notes_for_next_session": "Task 2.1 QC pass. Bắt đầu Task 2.2: Cảnh báo vượt ngân sách."
 }
