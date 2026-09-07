@@ -17,9 +17,11 @@ import { TransactionFormModal } from "../../transactions/components/TransactionF
 import { BudgetConfigModal } from "../../budget/components/BudgetConfigModal";
 import { BudgetAlertBanner } from "../../budget/components/BudgetAlertBanner";
 import { BudgetAlertModal } from "../../budget/components/BudgetAlertModal";
+import { BudgetAllocationChart } from "../../budget/components/BudgetAllocationChart";
 import { getCategoryIcon } from "../../../constants/categories";
 import { BudgetService } from "../../../services/budgetService";
 import { BudgetAlertService } from "../../../services/budgetAlertService";
+import { BudgetChartService } from "../../../services/budgetChartService";
 import { MainTabParamList } from "../../../navigation/types";
 
 export const DashboardScreen: React.FC = () => {
@@ -83,6 +85,12 @@ export const DashboardScreen: React.FC = () => {
   );
 
   const budgetAlertReport = BudgetAlertService.checkBudgetAlerts(
+    selectedMonth,
+    budgets,
+    transactions
+  );
+
+  const budgetAllocationReport = BudgetChartService.calculateAllocation(
     selectedMonth,
     budgets,
     transactions
@@ -269,6 +277,9 @@ export const DashboardScreen: React.FC = () => {
         <BudgetProgressBar status={budgetSummary.groups.needs} />
         <BudgetProgressBar status={budgetSummary.groups.wants} />
         <BudgetProgressBar status={budgetSummary.groups.savings} />
+
+        {/* Biểu đồ phân bổ chi tiêu Kế hoạch vs Thực tế */}
+        <BudgetAllocationChart report={budgetAllocationReport} />
 
         {/* Thống kê phân bổ chi tiêu theo Danh mục trong tháng */}
         {monthTransactions.some((t) => t.type === "expense") && (

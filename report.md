@@ -75,4 +75,11 @@
 - **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 2.2 (Build & Type check pass, Unit test suite pass, Financial logic threshold pass, UI & Design tokens pass, Schema & Data integrity, Regression check).
 - **Ghi chú**: Đã hoàn tất Task 2.2. Tự động chuyển tiếp sang Task 2.3: Biểu đồ phân bổ chi tiêu.
 
+## [2026-09-07 08:34:40Z] — Task: 2.3 — ✅ PASS
+- **Mô tả task**: Triển khai biểu đồ phân bổ chi tiêu so sánh Kế hoạch vs Thực tế (`BudgetAllocationChart.tsx`) và thuật toán tính toán độ lệch ngân sách (`BudgetChartService.ts`). Hiển thị thanh xếp tầng kép (dual stacked bars) trực quan theo tỷ lệ % từng nhóm (Needs, Wants, Savings), phân tách chi phí cá nhân và loại trừ chi tiêu kinh doanh/shop theo chuẩn tài chính, bảng legend đối soát chi tiết số tiền và tỷ lệ chênh lệch (+/- %), tính điểm sức khỏe ngân sách (`healthScore` 0-100) kèm khuyến nghị điều chỉnh.
+- **Bằng chứng**: Type check `tsc --noEmit` thoát mã 0, toàn bộ 7 bộ unit test (`test/transactions_test.js`, `test/categories_test.js`, `test/accounts_separation_test.js`, `test/dashboard_summary_test.js`, `test/budget_rules_test.js`, `test/budget_alerts_test.js`, `test/budget_chart_test.js`) PASS 100% (29/29 test cases), xác thực độc lập từ Subagent-QC `0959209c-e6d8-4504-b563-00c23262bc4e`.
+- **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 2.3 (Build & Type check pass, Unit test suite pass, Chart & Financial allocation logic pass, UI & Design tokens pass, Schema & Data integrity, Regression check).
+- **Ghi chú**: **PHASE 2: BUDGETING MODULE (50/30/20) HOÀN TẤT 100%**. Tự động chuyển tiếp ngay sang Phase 3: Profit First cho kinh doanh (Task 3.1: Thiết lập rule % tự động).
+
+
 
