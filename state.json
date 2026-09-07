@@ -1,13 +1,13 @@
 {
   "project": "Vén - App Quản lý Tài chính Cá nhân",
-  "last_updated": "2026-09-07T07:32:00Z",
-  "current_phase": "phase_0_setup",
-  "current_task": "0.2",
+  "last_updated": "2026-09-07T07:45:39Z",
+  "current_phase": "phase_1_core_input",
+  "current_task": "1.1",
   "phases": [
     {
       "id": "phase_0_setup",
       "name": "Setup dự án",
-      "status": "pending",
+      "status": "done",
       "tasks": [
         {
           "id": "0.1",
@@ -17,29 +17,29 @@
         {
           "id": "0.2",
           "name": "Cấu hình EAS Build Android & iOS",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "0.3",
           "name": "Thiết lập cấu trúc thư mục",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "0.4",
           "name": "Setup SQLite + schema migration",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "0.5",
           "name": "Setup navigation (bottom tab)",
-          "status": "pending"
+          "status": "done"
         }
       ]
     },
     {
       "id": "phase_1_core_input",
       "name": "Core: Nhập liệu thu chi",
-      "status": "pending",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "1.1",
@@ -264,5 +264,5 @@
   "blockers": [],
   "learning_log_ref": "LEARNING.md",
   "report_log_ref": "REPORT.md",
-  "notes_for_next_session": "Task 0.1 đã PASS QC. Đang ở Task 0.2: Cấu hình EAS Build Android & iOS."
+  "notes_for_next_session": "Phase 0 hoàn tất 100%. Tự động kích hoạt Phase 1 Task 1.1: Onboarding nhập nguồn thu nhập."
 }
