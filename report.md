@@ -71,7 +71,7 @@
 
 ## [2026-09-07 08:30:15Z] — Task: 2.2 — ✅ PASS
 - **Mô tả task**: Xây dựng hệ thống cảnh báo vượt ngân sách thông minh đa cấp độ (`BudgetAlertService.ts`) với 3 ngưỡng: An toàn (dưới 80%), Chú ý/Cảnh báo (từ 80% đến 99%), Nguy hiểm/Bội chi (>= 100%). Hiển thị banner cảnh báo tương tác trực tiếp trên Dashboard (`BudgetAlertBanner.tsx`) và popup phân tích chi tiết (`BudgetAlertModal.tsx`) liệt kê số tiền bội chi, đề xuất hành động thông minh theo từng nhóm chi tiêu (Needs, Wants, Savings) và tự động trích xuất top 3 giao dịch lớn nhất gây thâm hụt.
-- **Bằng chứng**: Type check `tsc --noEmit` thoát mã 0, 6/6 bộ unit test (`test/transactions_test.js`, `test/categories_test.js`, `test/accounts_separation_test.js`, `test/dashboard_summary_test.js`, `test/budget_rules_test.js`, `test/budget_alerts_test.js`) PASS 100% (25/25 test cases), xác thực độc lập từ Subagent-QC `c6c62191-d435-4658-85ec-02aa66f6d9f5`.
+- **Bằng chứng**: Type check `tsc --noEmit` thoát mã 0, 6/6 bộ unit test (`test/transactions_test.js`, `test/categories_test.js`, `test/accounts_separation_test.js`, `test/dashboard_summary_test.js`, `test/budget_rules_test.js`, `test/budget_alerts_test.js`) PASS 100% (25/25 test cases), xác thực độc lập from Subagent-QC `c6c62191-d435-4658-85ec-02aa66f6d9f5`.
 - **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 2.2 (Build & Type check pass, Unit test suite pass, Financial logic threshold pass, UI & Design tokens pass, Schema & Data integrity, Regression check).
 - **Ghi chú**: Đã hoàn tất Task 2.2. Tự động chuyển tiếp sang Task 2.3: Biểu đồ phân bổ chi tiêu.
 
@@ -81,5 +81,8 @@
 - **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 2.3 (Build & Type check pass, Unit test suite pass, Chart & Financial allocation logic pass, UI & Design tokens pass, Schema & Data integrity, Regression check).
 - **Ghi chú**: **PHASE 2: BUDGETING MODULE (50/30/20) HOÀN TẤT 100%**. Tự động chuyển tiếp ngay sang Phase 3: Profit First cho kinh doanh (Task 3.1: Thiết lập rule % tự động).
 
-
-
+## [2026-09-07 08:40:05Z] — Task: 3.1 — ✅ PASS
+- **Mô tả task**: Triển khai module Thiết lập quy tắc % tự động Profit First cho Business Account (Mike Michalowicz) tuân thủ nghiêm ngặt thứ tự trích quỹ: Lợi nhuận (Profit) -> Thuế & Pháp lý (Tax) -> Lương chủ shop (Owner Pay) -> Chi phí vận hành (Opex) -> Quỹ dự phòng (Reserve). Xây dựng `ProfitFirstDao` lưu trữ SQLite vào bảng `profit_first_rules`, `ProfitFirstService` hỗ trợ 3 Presets chuẩn (Tiêu chuẩn 5/15/40/30/10, Tinh gọn 10/15/45/20/10, Tái đầu tư 5/15/30/40/10) và xác thực tổng tỷ lệ 100%, thẻ hiển thị trực quan `ProfitFirstRuleCard.tsx` và modal cấu hình linh hoạt `ProfitFirstRuleConfigModal.tsx` tích hợp tại `AccountsScreen.tsx`.
+- **Bằng chứng**: Type check `tsc --noEmit` thoát mã 0, toàn bộ 8 bộ unit test (`test/transactions_test.js`, `test/categories_test.js`, `test/accounts_separation_test.js`, `test/dashboard_summary_test.js`, `test/budget_rules_test.js`, `test/budget_alerts_test.js`, `test/budget_chart_test.js`, `test/profit_first_rules_test.js`) PASS 100% (35/35 test cases), xác thực độc lập từ Subagent-QC `43b0d229-c36b-42ee-8b74-83e28c0b47ef`.
+- **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 3.1 (Build pass, Unit test pass, Profit First financial order pass, Schema & Data integrity pass, UI & Design tokens pass, Regression check).
+- **Ghi chú**: Đã hoàn tất Task 3.1. Tự động chuyển tiếp sang Task 3.2: Auto-allocation khi nhập doanh thu.

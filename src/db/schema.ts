@@ -74,7 +74,7 @@ export const INITIAL_MIGRATION_SQL = [
   `CREATE TABLE IF NOT EXISTS profit_first_rules (
     id TEXT PRIMARY KEY,
     account_id TEXT NOT NULL,
-    category TEXT NOT NULL CHECK(category IN ("profit", "tax", "owner_pay", "opex", "reserve")),
+    category TEXT NOT NULL CHECK(category IN ('profit', 'tax', 'owner_pay', 'opex', 'reserve')),
     percentage REAL NOT NULL,
     name TEXT,
     order_index INTEGER DEFAULT 0,

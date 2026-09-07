@@ -1,10 +1,11 @@
 import { create } from "zustand";
-import { User, IncomeSource, Account, Transaction, Budget } from "../types";
+import { User, IncomeSource, Account, Transaction, Budget, ProfitFirstRule } from "../types";
 import { UsersDao } from "../db/usersDao";
 import { IncomeSourcesDao } from "../db/incomeSourcesDao";
 import { AccountsDao } from "../db/accountsDao";
 import { TransactionsDao } from "../db/transactionsDao";
 import { BudgetsDao } from "../db/budgetsDao";
+import { ProfitFirstDao } from "../db/profitFirstDao";
 
 interface AppState {
   user: User | null;
@@ -12,6 +13,7 @@ interface AppState {
   accounts: Account[];
   transactions: Transaction[];
   budgets: Budget[];
+  profitFirstRules: ProfitFirstRule[];
   isLoading: boolean;
   isOnboarded: boolean;
 
@@ -19,11 +21,15 @@ interface AppState {
   fetchTransactions: () => Promise<void>;
   fetchAccounts: () => Promise<void>;
   fetchBudgets: (period: string) => Promise<void>;
+  fetchProfitFirstRules: (accountId: string) => Promise<void>;
   setUser: (user: User | null) => void;
   setIncomeSources: (sources: IncomeSource[]) => void;
   setAccounts: (accounts: Account[]) => void;
   setTransactions: (transactions: Transaction[]) => void;
   setBudgets: (budgets: Budget[]) => void;
+  setProfitFirstRules: (rules: ProfitFirstRule[]) => void;
+  saveProfitFirstRules: (accountId: string, rules: ProfitFirstRule[]) => Promise<ProfitFirstRule[]>;
+  resetProfitFirstRules: (accountId: string) => Promise<ProfitFirstRule[]>;
   addTransaction: (
     data: Parameters<typeof TransactionsDao.create>[0]
   ) => Promise<Transaction>;
@@ -55,6 +61,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   accounts: [],
   transactions: [],
   budgets: [],
+  profitFirstRules: [],
   isLoading: true,
   isOnboarded: false,
 
@@ -70,12 +77,20 @@ export const useAppStore = create<AppState>((set, get) => ({
           TransactionsDao.getAll(),
           BudgetsDao.getByPeriod(currentPeriod),
         ]);
+
+        const businessAcc = accounts.find((a) => a.type === "business");
+        let profitFirstRules: ProfitFirstRule[] = [];
+        if (businessAcc) {
+          profitFirstRules = await ProfitFirstDao.getRulesByAccountId(businessAcc.id);
+        }
+
         set({
           user,
           incomeSources,
           accounts,
           transactions,
           budgets,
+          profitFirstRules,
           isOnboarded: true,
           isLoading: false,
         });
@@ -86,6 +101,7 @@ export const useAppStore = create<AppState>((set, get) => ({
           accounts: [],
           transactions: [],
           budgets: [],
+          profitFirstRules: [],
           isOnboarded: false,
           isLoading: false,
         });
@@ -128,6 +144,28 @@ export const useAppStore = create<AppState>((set, get) => ({
   setAccounts: (accounts) => set({ accounts }),
   setTransactions: (transactions) => set({ transactions }),
   setBudgets: (budgets) => set({ budgets }),
+  setProfitFirstRules: (profitFirstRules) => set({ profitFirstRules }),
+
+  fetchProfitFirstRules: async (accountId: string) => {
+    try {
+      const profitFirstRules = await ProfitFirstDao.getRulesByAccountId(accountId);
+      set({ profitFirstRules });
+    } catch (err) {
+      console.error("fetchProfitFirstRules error:", err);
+    }
+  },
+
+  saveProfitFirstRules: async (accountId: string, rules: ProfitFirstRule[]) => {
+    const profitFirstRules = await ProfitFirstDao.saveRules(accountId, rules);
+    set({ profitFirstRules });
+    return profitFirstRules;
+  },
+
+  resetProfitFirstRules: async (accountId: string) => {
+    const profitFirstRules = await ProfitFirstDao.resetToDefault(accountId);
+    set({ profitFirstRules });
+    return profitFirstRules;
+  },
 
   saveBudgetRules: async (period, rules) => {
     const createdBudgets = await BudgetsDao.saveGroupRules(period, rules);
@@ -198,11 +236,13 @@ export const useAppStore = create<AppState>((set, get) => ({
         "briefcase",
         false
       );
+      const profitFirstRules = await ProfitFirstDao.createDefaultRules(businessAcc.id);
 
       set({
         user,
         incomeSources: createdSources,
         accounts: [personalAcc, businessAcc],
+        profitFirstRules,
         isOnboarded: true,
         isLoading: false,
       });

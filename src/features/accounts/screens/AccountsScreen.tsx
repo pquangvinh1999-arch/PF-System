@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -12,17 +12,30 @@ import { Colors, Spacing, Typography, BorderRadius } from "../../../constants/th
 import { useAppStore } from "../../../store/useAppStore";
 import { Account, Transaction } from "../../../types";
 import { TransactionFormModal } from "../../transactions/components/TransactionFormModal";
+import { ProfitFirstRuleCard } from "../../profitFirst/components/ProfitFirstRuleCard";
+import { ProfitFirstRuleConfigModal } from "../../profitFirst/components/ProfitFirstRuleConfigModal";
 
 export const AccountsScreen: React.FC = () => {
   const accounts = useAppStore((state) => state.accounts);
   const transactions = useAppStore((state) => state.transactions);
+  const profitFirstRules = useAppStore((state) => state.profitFirstRules);
+  const fetchProfitFirstRules = useAppStore((state) => state.fetchProfitFirstRules);
+  const saveProfitFirstRules = useAppStore((state) => state.saveProfitFirstRules);
+  const resetProfitFirstRules = useAppStore((state) => state.resetProfitFirstRules);
 
   const [selectedAccountId, setSelectedAccountId] = useState<string>("all");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [profitFirstModalVisible, setProfitFirstModalVisible] = useState<boolean>(false);
   const [editingTx, setEditingTx] = useState<Transaction | null>(null);
 
   const personalAccount = accounts.find((a) => a.type === "personal");
   const businessAccount = accounts.find((a) => a.type === "business");
+
+  useEffect(() => {
+    if (businessAccount && profitFirstRules.length === 0) {
+      fetchProfitFirstRules(businessAccount.id);
+    }
+  }, [businessAccount?.id]);
 
   // Giao dịch được lọc theo tài khoản
   const filteredTransactions = transactions.filter((tx) => {
@@ -135,12 +148,18 @@ export const AccountsScreen: React.FC = () => {
 
         {(selectedAccountId === "all" || selectedAccountId === businessAccount?.id) &&
           businessAccount && (
-            <BalanceCard
-              account={businessAccount}
-              showDetails
-              onActionPress={handleOpenTransfer}
-              actionTitle="⇄ Rút lợi nhuận sang Ví Cá nhân"
-            />
+            <>
+              <BalanceCard
+                account={businessAccount}
+                showDetails
+                onActionPress={handleOpenTransfer}
+                actionTitle="⇄ Rút lợi nhuận sang Ví Cá nhân"
+              />
+              <ProfitFirstRuleCard
+                rules={profitFirstRules}
+                onPressConfigure={() => setProfitFirstModalVisible(true)}
+              />
+            </>
           )}
 
         {/* Lịch sử giao dịch sổ cái của ví được chọn */}
@@ -191,6 +210,22 @@ export const AccountsScreen: React.FC = () => {
           setEditingTx(null);
         }}
       />
+
+      {/* Modal Cấu hình Profit First */}
+      {businessAccount && (
+        <ProfitFirstRuleConfigModal
+          visible={profitFirstModalVisible}
+          accountId={businessAccount.id}
+          initialRules={profitFirstRules}
+          onClose={() => setProfitFirstModalVisible(false)}
+          onSave={async (rules) => {
+            await saveProfitFirstRules(businessAccount.id, rules);
+          }}
+          onReset={async () => {
+            await resetProfitFirstRules(businessAccount.id);
+          }}
+        />
+      )}
     </SafeAreaView>
   );
 };

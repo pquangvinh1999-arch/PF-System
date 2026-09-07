@@ -17,4 +17,5 @@ export const FinanceFormulas = {
 export * from "./budgetService";
 export * from "./budgetAlertService";
 export * from "./budgetChartService";
+export * from "./profitFirstService";
 
