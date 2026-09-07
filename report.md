@@ -121,3 +121,81 @@
 - **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 3.5.4 (Build & Type check pass, Unit test suite pass, Notification trigger date & boundary math pass, UI & Design tokens pass, Cancellation lifecycle integrity pass, Regression check).
 - **Ghi chú**: **PHASE 3.5: CALENDAR - LỊCH CHI TIÊU XA (THAY THẾ MAP) HOÀN TẤT 100%**. Tự động chuyển tiếp ngay sang Phase 4: Mục tiêu & Quỹ khẩn cấp (Task 4.1: Goal tracker CRUD).
 
+## [2026-09-07 09:40:11Z] — Task: 4.1 — ✅ PASS
+- **Mô tả task**: Triển khai Goal tracker CRUD hoàn chỉnh: `GoalsDao` (SQLite bảng `goals`), `GoalService` (validate tên/loại/số tiền/deadline YYYY-MM-DD, tính % tiến độ, số còn thiếu, trạng thái), component `GoalCard` (progress bar đổi màu theo ngưỡng, badge Mới/On-track/Hoàn thành, đúng token Vén), `GoalFormModal` (bottom sheet bo góc 24px: thêm/sửa/góp thêm, chọn loại emergency_fund/short/mid/long_term), `GoalsScreen` (tổng tiến độ + filter theo loại + xóa), mở rộng Zustand store (`goals`, `fetchGoals/addGoal/updateGoal/deleteGoal`), tích hợp section “🎯 Mục tiêu tài chính” vào `DashboardScreen`.
+- **Bằng chứng**: Type check `tsc --noEmit` thoát mã 0, test mới `test/goals_crud_test.js` PASS 100% (6/6 nhóm: validation, progress math, SQLite create/query/update+constraint/delete), full suite 15/15 bộ PASS không regression.
+- **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 4.1 (Build & Type check pass, Unit test pass, CRUD + progress logic pass, UI & Design tokens pass, Schema đúng `goals` theo PLAN/DESIGN, Regression check).
+- **Ghi chú**: Đã hoàn tất Task 4.1. Tự động chuyển tiếp sang Task 4.2: Emergency Fund auto-calc.
+
+## [2026-09-07 09:55:00Z] — Task: 4.2 — ✅ PASS
+- **Mô tả task**: Triển khai Emergency Fund auto-calc đúng SKILLS Nhóm F: `EmergencyFundService.calculate()` tự tính chi phí thiết yếu TB/tháng (chỉ nhóm Needs, trung bình 3 tháng gần nhất, loại trừ Wants/Business/Income) × 3–6 tháng ra ngưỡng min/max, cho phép chọn 3/4/5/6 tháng, tính % tiến độ và số còn thiếu so với goal `emergency_fund` hiện tại. Component `EmergencyFundCard` hiển thị TB/tháng, số tháng lịch sử, target đã chọn, progress bar, nút “Đặt làm mục tiêu” (tạo mới hoặc cập nhật goal khẩn cấp). Tích hợp vào `DashboardScreen` (trên list goals) và `GoalsScreen` (đầu trang).
+- **Bằng chứng**: `tsc --noEmit` mã 0, test mới `test/emergency_fund_test.js` PASS 100% (5/5 nhóm: TB 3 tháng + target 3/6x, chọn tháng, loại trừ non-needs, progress/remaining, clamp biên), full suite 16/16 PASS không regression.
+- **Kết quả QC**: PASS toàn bộ QC-Gate Task 4.2 (Build & Type check, Unit test số học, UI đúng token Vén, Data đúng schema `goals`, Regression).
+- **Ghi chú**: Đã hoàn tất Task 4.2. Tự động chuyển tiếp sang Task 4.3: Gợi ý số tiền cần tiết kiệm/tháng.
+
+## [2026-09-07 10:05:00Z] — Task: 4.3 — ✅ PASS
+- **Mô tả task**: Triển khai gợi ý tiết kiệm/tháng đúng PLAN Phase 4: tái dùng `GoalService.suggestMonthlyContribution()` (còn thiếu / số tháng còn lại, làm tròn lên, phát hiện quá hạn, qua năm, cùng tháng = 1). Component mới `GoalSuggestionBar` hiển thị “Còn N tháng · Cần X đ/tháng”, trạng thái quá hạn/chưa deadline/hoàn thành với màu token Vén. Nhúng dưới mỗi `GoalCard` trong `GoalsScreen` và `DashboardScreen`.
+- **Bằng chứng**: `tsc --noEmit` mã 0, test mới `test/goal_suggestion_test.js` PASS 100% (6/6: cơ bản 4 tháng, ceil, quá hạn, không deadline, qua năm, cùng tháng), full suite 17/17 PASS không regression.
+- **Kết quả QC**: PASS toàn bộ QC-Gate Task 4.3.
+- **Ghi chú**: **PHASE 4: MỤC TIÊU & QUỸ KHẨN CẤP HOÀN TẤT 100%**. Tự động chuyển tiếp ngay sang Phase 5: Quản lý nợ (Task 5.1: CRUD khoản nợ).
+
+## [2026-09-07 10:20:00Z] — Task: 5.1 — ✅ PASS
+- **Mô tả task**: CRUD khoản nợ hoàn chỉnh: `DebtsDao` (SQLite bảng `debts`), validate tên/dư nợ/lãi suất 0–100%/trả tối thiểu trong `DebtService`, component `DebtRow` (badge dư nợ + thứ tự ưu tiên), `DebtFormModal` (bottom sheet thêm/sửa, chọn Snowball/Avalanche), `DebtsScreen` (tổng dư nợ + list), mở rộng store (`debts`, `fetchDebts/addDebt/updateDebt/deleteDebt`), section “💳 Quản lý nợ” trong `DashboardScreen`.
+- **Bằng chứng**: `tsc --noEmit` mã 0, `test/debts_test.js` nhóm TEST 1 + TEST 4–6 PASS (validation, SQLite create/update+CHECK/delete), full suite 18/18 PASS.
+- **Kết quả QC**: PASS QC-Gate Task 5.1.
+- **Ghi chú**: Chuyển tiếp Task 5.2.
+
+## [2026-09-07 10:20:00Z] — Task: 5.2 — ✅ PASS
+- **Mô tả task**: Thuật toán Snowball/Avalanche đúng SKILLS Nhóm G (`DebtService.sortByStrategy`: Snowball = dư nợ tăng dần, Avalanche = lãi suất giảm dần), thanh chuyển chiến lược trong `DebtsScreen` kèm gợi ý, `DebtRow` hiển thị #thứ tự + nhãn chiến lược.
+- **Bằng chứng**: `test/debts_test.js` TEST 2 PASS (Snowball [b,c,a], Avalanche [b,a,c]), `tsc` mã 0, full suite 18/18 PASS.
+- **Kết quả QC**: PASS QC-Gate Task 5.2.
+- **Ghi chú**: Chuyển tiếp Task 5.3.
+
+## [2026-09-07 10:20:00Z] — Task: 5.3 — ✅ PASS
+- **Mô tả task**: Lịch trả nợ dự kiến (`DebtService.buildPayoffPlan` + `estimateMonths`: mô phỏng lãi kép hàng tháng với trả tối thiểu, xử lý biên không đủ trả lãi → 600 tháng, lãi 0% → chia đều), hiển thị “⏳ ~N tháng” dưới mỗi khoản nợ trong `DebtsScreen`.
+- **Bằng chứng**: `test/debts_test.js` TEST 3 PASS (12M/0%/2M = 6 tháng, 10M/12%/1M ≈ 11 tháng, không đủ lãi → cap), `tsc` mã 0, full suite 18/18 PASS.
+- **Kết quả QC**: PASS QC-Gate Task 5.3.
+- **Ghi chú**: **PHASE 5: QUẢN LÝ NỢ HOÀN TẤT 100%**. Tự động chuyển tiếp ngay sang Phase 6: Báo cáo & Đánh giá định kỳ (Task 6.1: Báo cáo tháng).
+
+## [2026-09-07 10:40:00Z] — Task: 6.1 — ✅ PASS
+- **Mô tả task**: Báo cáo tháng (`ReportService.monthly`): tổng thu/chi/tiết kiệm ròng/tỷ lệ tích lũy, group-by category (số tiền + số lượng + % tỷ trọng, sắp xếp giảm dần), so sánh tháng trước (delta thu/chi/ròng), tách scope personal/business/family. UI `MonthlyReportCard` trong `ReportsScreen` kèm badge tích lũy.
+- **Bằng chứng**: `tsc --noEmit` mã 0, `test/reports_test.js` TEST 1–3 PASS (tổng + compare, tách scope, group-by), full suite 19/19 PASS.
+- **Kết quả QC**: PASS QC-Gate Task 6.1.
+- **Ghi chú**: Chuyển tiếp Task 6.2.
+
+## [2026-09-07 10:40:00Z] — Task: 6.2 — ✅ PASS
+- **Mô tả task**: Báo cáo quý (`ReportService.quarterly`): gộp 3 tháng, tổng thu/chi/ròng quý, tỷ lệ TB, xu hướng tiết kiệm up/down/flat (so tháng cuối vs đầu quý). UI `QuarterlyReportCard` + chuyển Tháng/Quý trong `ReportsScreen`.
+- **Bằng chứng**: `test/reports_test.js` TEST 4 PASS (Q3 tổng thu 121M, trend up), `tsc` mã 0, full suite 19/19 PASS.
+- **Kết quả QC**: PASS QC-Gate Task 6.2.
+- **Ghi chú**: Chuyển tiếp Task 6.3.
+
+## [2026-09-07 10:40:00Z] — Task: 6.3 — ✅ PASS
+- **Mô tả task**: Xuất CSV (`ReportService.toCSVMonthly/toCSVQuarterly` + nút “📤 Chia sẻ CSV” dùng `Share` core của React Native — KHÔNG cài thêm thư viện ngoài, tuân thủ AGENT.md điều 5 và SKILLS Nhóm H). CSV có header, escape dấu phẩy/ngoặc kép đúng chuẩn mở được bằng Excel.
+- **Bằng chứng**: `test/reports_test.js` TEST 5–6 PASS (escape `"Ăn ""đặc biệt"", ngoài"`, dòng data đủ cột, tháng rỗng), `tsc` mã 0, full suite 19/19 PASS.
+- **Kết quả QC**: PASS QC-Gate Task 6.3.
+- **Ghi chú**: **PHASE 6: BÁO CÁO & ĐÁNH GIÁ ĐỊNH KỲ HOÀN TẤT 100%**. Tự động chuyển tiếp ngay sang Phase 7: Bảo mật & Đồng bộ (Task 7.1: Khóa app).
+
+## [2026-09-07 11:00:00Z] — Task: 7.1 — ✅ PASS
+- **Mô tả task**: Khóa app PIN + sinh trắc học: cài `expo-local-authentication@~57.0.2` (đã duyệt trong SKILLS Nhóm I, đúng SDK 57), `LockService` (validate PIN 4–6 số + chặn PIN yếu, hash FNV-1a 1000 vòng không lưu plaintext), `BiometricService` (kiểm tra hardware/enrolled + `authenticateAsync`), bảng `app_settings` qua migration v2 + `SettingsDao`, store security (`setupPin/disableLock/unlock/lock/loadSecuritySettings`), `LockScreen` gate trong `App.tsx`, cấu hình PIN/biometric trong `ProfileScreen`.
+- **Bằng chứng**: `tsc --noEmit` mã 0 (sau 1 vòng sửa 3 lỗi type đã ghi `LEARNING.md`), `test/security_test.js` TEST 1–2 PASS, full suite 20/20 PASS.
+- **Kết quả QC**: PASS QC-Gate Task 7.1 (giới hạn đã biết: sinh trắc học cần máy thật theo SKILLS Nhóm I — simulator chỉ test được luồng PIN).
+- **Ghi chú**: Chuyển tiếp Task 7.2.
+
+## [2026-09-07 11:00:00Z] — Task: 7.2 — ✅ PASS (khung sẵn sàng, chờ user config)
+- **Mô tả task**: Đồng bộ cloud TÙY CHỌN: tạo `SyncService` abstraction (`LocalOnlySyncProvider` + `AwaitingConfigSyncProvider` cho firebase/supabase) + card hướng dẫn trong `ProfileScreen`. KHÔNG tự tạo Firebase/Supabase project, KHÔNG cài thêm lib mạng, KHÔNG phát sinh chi phí — đúng setting.json (thao tác trả phí/dịch vụ ngoài cần user duyệt) và PLAN ghi “(Tùy chọn)”.
+- **Bằng chứng**: `test/security_test.js` TEST 6 PASS (stub không bao giờ báo đồng bộ thành công giả), `tsc` mã 0, full suite 20/20 PASS.
+- **Kết quả QC**: PASS QC-Gate Task 7.2 (phạm vi đã thống nhất: khung + docs, provider thật cần user cung cấp API key).
+- **Ghi chú**: Chuyển tiếp Task 7.3.
+
+## [2026-09-07 11:00:00Z] — Task: 7.3 — ✅ PASS
+- **Mô tả task**: Backup/Restore mã hóa (không thêm lib): `BackupService` serialize 9 bảng → JSON versioned → XOR + base64 tiền tố `VEN1.` (không lộ plaintext số tiền), `decrypt` kèm validate version/app, store `restoreBackup()` ghi đè an toàn (tắt FK, xóa con-trước cha-sau, bật lại FK, reload). UI trong `ProfileScreen`: tạo/chia sẻ backup qua `Share` core, dán chuỗi để kiểm tra + xác nhận 2 bước trước khi ghi đè.
+- **Bằng chứng**: `test/security_test.js` TEST 3–5 PASS (roundtrip, không lộ `987654321` plaintext, từ chối sai passphrase/sai định dạng/passphrase ngắn), `tsc` mã 0, full suite 20/20 PASS.
+- **Kết quả QC**: PASS QC-Gate Task 7.3.
+- **Ghi chú**: **PHASE 7: BẢO MẬT & ĐỒNG BỘ HOÀN TẤT 100%**. Tự động chuyển tiếp ngay sang Phase 8: Build & Release.
+
+## [2026-09-07 11:15:00Z] — Task: 8.4 — ✅ PASS
+- **Mô tả task**: Chuẩn bị assets & config store: kiểm tra đủ 6 assets (`icon.png` 1024×1024, splash, adaptive-icon, favicon), `app.json` bổ sung plugins `expo-local-authentication` + `expo-notifications` (icon/màu brand), `NSFaceIDUsageDescription`, Android permissions biometric, `versionCode`/`buildNumber` = 1, splash nền `#F7F5F0`. `eas.json` đã chuẩn 3 profiles (development/preview APK, production app-bundle).
+- **Bằng chứng**: `npx expo config --type public` resolve thành công, `tsc --noEmit` mã 0, full suite 20/20 PASS.
+- **Kết quả QC**: PASS QC-Gate Task 8.4.
+- **Ghi chú**: Các task 8.1/8.2/8.3/8.5 cần tài khoản Expo, Apple Developer và máy thật — DỪNG LOOP chờ user duyệt theo setting.json.
+

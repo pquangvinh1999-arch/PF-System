@@ -9,11 +9,12 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { Card, Badge, Button, TransactionRow, BudgetProgressBar } from "../../../components";
+import { Card, Badge, Button, TransactionRow, BudgetProgressBar, GoalCard, GoalSuggestionBar, EmergencyFundCard, DebtRow } from "../../../components";
 import { Colors, Spacing, Typography, BorderRadius, Shadows } from "../../../constants/theme";
 import { useAppStore } from "../../../store/useAppStore";
 import { Transaction } from "../../../types";
 import { TransactionFormModal } from "../../transactions/components/TransactionFormModal";
+import { GoalFormModal } from "../../goals/components/GoalFormModal";
 import { BudgetConfigModal } from "../../budget/components/BudgetConfigModal";
 import { BudgetAlertBanner } from "../../budget/components/BudgetAlertBanner";
 import { BudgetAlertModal } from "../../budget/components/BudgetAlertModal";
@@ -31,11 +32,16 @@ export const DashboardScreen: React.FC = () => {
   const transactions = useAppStore((state) => state.transactions);
   const budgets = useAppStore((state) => state.budgets);
   const fetchBudgets = useAppStore((state) => state.fetchBudgets);
+  const goals = useAppStore((state) => state.goals);
+  const fetchGoals = useAppStore((state) => state.fetchGoals);
+  const debts = useAppStore((state) => state.debts);
+  const fetchDebts = useAppStore((state) => state.fetchDebts);
   const user = useAppStore((state) => state.user);
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [budgetModalVisible, setBudgetModalVisible] = useState<boolean>(false);
   const [alertModalVisible, setAlertModalVisible] = useState<boolean>(false);
+  const [goalModalVisible, setGoalModalVisible] = useState<boolean>(false);
   const [selectedTx, setSelectedTx] = useState<Transaction | null>(null);
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>("Tất cả");
 
@@ -73,10 +79,18 @@ export const DashboardScreen: React.FC = () => {
   // Tính toán số liệu thu chi theo tháng
   const monthTransactions = transactions.filter((t) => t.date.startsWith(selectedMonth));
 
-  // Tải ngân sách tháng hiện tại
+  // Tải ngân sách tháng hiện tại + goals
   useEffect(() => {
     fetchBudgets(selectedMonth);
   }, [selectedMonth, fetchBudgets]);
+
+  useEffect(() => {
+    fetchGoals();
+  }, [fetchGoals]);
+
+  useEffect(() => {
+    fetchDebts();
+  }, [fetchDebts]);
 
   const budgetSummary = BudgetService.calculateGroupStatus(
     selectedMonth,
@@ -281,6 +295,62 @@ export const DashboardScreen: React.FC = () => {
         {/* Biểu đồ phân bổ chi tiêu Kế hoạch vs Thực tế */}
         <BudgetAllocationChart report={budgetAllocationReport} />
 
+        {/* Mục tiêu tài chính (Phase 4.1 — Goal tracker CRUD) */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>🎯 Mục tiêu tài chính</Text>
+          <TouchableOpacity onPress={() => setGoalModalVisible(true)}>
+            <Text style={styles.seeAllText}>+ Mục tiêu mới</Text>
+          </TouchableOpacity>
+        </View>
+        <EmergencyFundCard
+          transactions={transactions}
+          goals={goals}
+          onApplyTarget={async (targetAmount, months) => {
+            const { EmergencyFundService } = await import("../../../services/emergencyFundService");
+            const existing = EmergencyFundService.findEmergencyGoal(goals);
+            if (existing) {
+              await useAppStore.getState().updateGoal(existing.id, { target_amount: Math.round(targetAmount) });
+            } else {
+              await useAppStore.getState().addGoal({
+                name: `Quỹ khẩn cấp ${months} tháng`,
+                type: "emergency_fund",
+                target_amount: Math.round(targetAmount),
+                current_amount: 0,
+              });
+            }
+          }}
+        />
+        {goals.length === 0 ? (
+          <Card style={styles.emptyCard}>
+            <Text style={styles.emptyIcon}>🎯</Text>
+            <Text style={styles.emptyTitle}>Chưa có mục tiêu nào</Text>
+            <Text style={styles.emptyDesc}>
+              Tạo quỹ khẩn cấp, mục tiêu mua sắm, du lịch... để theo dõi tiến độ tích lũy.
+            </Text>
+          </Card>
+        ) : (
+          goals.slice(0, 3).map((g) => (
+            <View key={g.id}>
+              <GoalCard goal={g} />
+              <GoalSuggestionBar goal={g} />
+            </View>
+          ))
+        )}
+
+        {/* Quản lý nợ (Phase 5.1 — Debt CRUD) */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>💳 Quản lý nợ</Text>
+        </View>
+        {debts.length === 0 ? (
+          <Card style={styles.emptyCard}>
+            <Text style={styles.emptyIcon}>🎉</Text>
+            <Text style={styles.emptyTitle}>Không có khoản nợ nào</Text>
+            <Text style={styles.emptyDesc}>Vào tab Ví & TK hoặc màn hình Nợ để thêm và theo dõi.</Text>
+          </Card>
+        ) : (
+          debts.slice(0, 2).map((d) => <DebtRow key={d.id} debt={d} />)
+        )}
+
         {/* Thống kê phân bổ chi tiêu theo Danh mục trong tháng */}
         {monthTransactions.some((t) => t.type === "expense") && (
           <Card style={styles.breakdownCard}>
@@ -402,6 +472,12 @@ export const DashboardScreen: React.FC = () => {
         report={budgetAlertReport}
         onClose={() => setAlertModalVisible(false)}
         onOpenConfig={() => setBudgetModalVisible(true)}
+      />
+
+      {/* Modal Thêm Mục tiêu (Phase 4.1) */}
+      <GoalFormModal
+        visible={goalModalVisible}
+        onClose={() => setGoalModalVisible(false)}
       />
     </SafeAreaView>
   );

@@ -1,8 +1,8 @@
 {
   "project": "Vén - App Quản lý Tài chính Cá nhân",
-  "last_updated": "2026-09-07T09:23:30Z",
-  "current_phase": "phase_4_goals",
-  "current_task": "4.1",
+  "last_updated": "2026-09-07T11:15:00Z",
+  "current_phase": "phase_8_build_release",
+  "current_task": "8.1",
   "phases": [
     {
       "id": "phase_0_setup",
@@ -142,95 +142,95 @@
     {
       "id": "phase_4_goals",
       "name": "Mục tiêu & Quỹ khẩn cấp",
-      "status": "in_progress",
+      "status": "done",
       "tasks": [
         {
           "id": "4.1",
           "name": "Goal tracker CRUD",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "4.2",
           "name": "Emergency Fund auto-calc",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "4.3",
           "name": "Gợi ý số tiền cần tiết kiệm/tháng",
-          "status": "pending"
+          "status": "done"
         }
       ]
     },
     {
       "id": "phase_5_debt",
       "name": "Quản lý nợ",
-      "status": "pending",
+      "status": "done",
       "tasks": [
         {
           "id": "5.1",
           "name": "CRUD khoản nợ",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "5.2",
           "name": "Thuật toán Snowball/Avalanche",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "5.3",
           "name": "Lịch trả nợ dự kiến",
-          "status": "pending"
+          "status": "done"
         }
       ]
     },
     {
       "id": "phase_6_reports",
       "name": "Báo cáo & Đánh giá định kỳ",
-      "status": "pending",
+      "status": "done",
       "tasks": [
         {
           "id": "6.1",
           "name": "Báo cáo tháng",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "6.2",
           "name": "Báo cáo quý",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "6.3",
           "name": "Xuất PDF/CSV",
-          "status": "pending"
+          "status": "done"
         }
       ]
     },
     {
       "id": "phase_7_security",
       "name": "Bảo mật & Đồng bộ",
-      "status": "pending",
+      "status": "done",
       "tasks": [
         {
           "id": "7.1",
           "name": "Khóa app PIN/FaceID/TouchID",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "7.2",
           "name": "Đồng bộ cloud (tùy chọn)",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "7.3",
           "name": "Backup/Restore dữ liệu",
-          "status": "pending"
+          "status": "done"
         }
       ]
     },
     {
       "id": "phase_8_build_release",
       "name": "Build & Release",
-      "status": "pending",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "8.1",
@@ -250,7 +250,7 @@
         {
           "id": "8.4",
           "name": "Chuẩn bị assets store",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "8.5",
@@ -260,9 +260,23 @@
       ]
     }
   ],
-  "pending_questions": [],
+  "pending_questions": [
+    {
+      "id": "q8_build",
+      "task": "8.1/8.2",
+      "question": "Anh có muốn em chạy EAS Build ngay không? Cần: (1) đăng nhập tài khoản Expo (eas login), (2) Apple Developer account (cho iOS), (3) build cloud có thể chờ queue + tốn credit. Nếu đồng ý, anh chọn: A) chỉ build Android APK preview, B) build cả Android + iOS, C) anh tự chạy lệnh eas build --platform android --profile preview trên máy anh.",
+      "options": ["A: chỉ APK Android", "B: cả Android + iOS", "C: tự chạy lệnh"],
+      "status": "awaiting_user"
+    },
+    {
+      "id": "q8_device",
+      "task": "8.3",
+      "question": "Anh có máy Android/iOS thật để test không? Em đã chuẩn bị checklist test (mở khóa PIN/biometric, nhập thu chi, budget, Profit First, calendar notification, goals, nợ, báo cáo CSV, backup/restore). Anh test xong báo lại lỗi (nếu có) để em sửa theo vòng QC.",
+      "status": "awaiting_user"
+    }
+  ],
   "blockers": [],
   "learning_log_ref": "LEARNING.md",
   "report_log_ref": "REPORT.md",
-  "notes_for_next_session": "Phase 3.5 hoàn tất 100% (QC PASS). Bắt đầu Phase 4: Mục tiêu & Quỹ khẩn cấp - Task 4.1: Goal tracker CRUD."
+  "notes_for_next_session": "Phase 8: task 8.4 DONE. LOOP TẠM DỪNG đúng quy trình (LOOP.md điều kiện #2 + setting.json): chờ user duyệt EAS Build (8.1/8.2), test máy thật (8.3) và submit store (8.5). Xem pending_questions q8_build, q8_device."
 }

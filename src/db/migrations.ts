@@ -13,6 +13,17 @@ export const MIGRATIONS: Migration[] = [
     name: "initial_core_schema",
     sql: INITIAL_MIGRATION_SQL,
   },
+  {
+    version: 2,
+    name: "app_settings_for_lock_and_prefs",
+    sql: [
+      `CREATE TABLE IF NOT EXISTS app_settings (
+        key TEXT PRIMARY KEY,
+        value TEXT NOT NULL,
+        updated_at TEXT NOT NULL
+      );`,
+    ],
+  },
 ];
 
 export async function runMigrations(db: SQLite.SQLiteDatabase): Promise<void> {

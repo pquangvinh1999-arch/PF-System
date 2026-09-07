@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   View,
   Text,
@@ -8,9 +8,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Card, Badge, Button } from "../../../components";
+import { MonthlyReportCard, QuarterlyReportCard } from "../../../components/ReportCards";
 import { Colors, Spacing, Typography, BorderRadius } from "../../../constants/theme";
 import { useAppStore } from "../../../store/useAppStore";
 import { BusinessReportService } from "../../../services/businessReportService";
+import { ReportService, ScopeFilter } from "../../../services/reportService";
 import { BusinessCashFlowReportCard } from "../../profitFirst/components/BusinessCashFlowReportCard";
 
 export const ReportsScreen: React.FC = () => {
@@ -19,6 +21,8 @@ export const ReportsScreen: React.FC = () => {
   const profitFirstRules = useAppStore((state) => state.profitFirstRules);
 
   const [activeTab, setActiveTab] = useState<"personal" | "business">("business");
+  const [reportMode, setReportMode] = useState<"month" | "quarter">("month");
+  const [familyScope, setFamilyScope] = useState<boolean>(false);
   const [selectedMonth, setSelectedMonth] = useState<string>(
     new Date().toISOString().substring(0, 7) // "YYYY-MM"
   );
@@ -87,6 +91,22 @@ export const ReportsScreen: React.FC = () => {
         profitFirstRules
       )
     : null;
+
+  const reportScope: ScopeFilter = familyScope ? "family" : activeTab;
+  const accountMap = useMemo(() => {
+    const m: Record<string, "personal" | "business"> = {};
+    for (const a of accounts) m[a.id] = a.type;
+    return m;
+  }, [accounts]);
+  const monthlyReport = useMemo(
+    () => ReportService.monthly(selectedMonth, transactions, accountMap, reportScope),
+    [selectedMonth, transactions, accountMap, reportScope]
+  );
+  const quarterlyReport = useMemo(() => {
+    const [y, m] = selectedMonth.split("-").map(Number);
+    const q = Math.ceil(m / 3) as 1 | 2 | 3 | 4;
+    return ReportService.quarterly(y, q, transactions, accountMap, reportScope);
+  }, [selectedMonth, transactions, accountMap, reportScope]);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -222,6 +242,44 @@ export const ReportsScreen: React.FC = () => {
             </Card>
           </View>
         )}
+
+        {/* Phase 6 — Báo cáo tháng/quý + Xuất CSV */}
+        <View style={styles.tabBar}>
+          <TouchableOpacity
+            style={[styles.tabBtn, reportMode === "month" && styles.tabBtnActive]}
+            onPress={() => setReportMode("month")}
+            activeOpacity={0.8}
+          >
+            <Text style={[styles.tabText, reportMode === "month" && styles.tabTextActive]}>
+              📅 Báo cáo tháng
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.tabBtn, reportMode === "quarter" && styles.tabBtnBizActive]}
+            onPress={() => setReportMode("quarter")}
+            activeOpacity={0.8}
+          >
+            <Text style={[styles.tabText, reportMode === "quarter" && styles.tabTextBizActive]}>
+              📊 Báo cáo quý
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <TouchableOpacity
+          style={[styles.tabBtn, styles.familyToggle, familyScope && styles.tabBtnActive]}
+          onPress={() => setFamilyScope((v) => !v)}
+          activeOpacity={0.8}
+        >
+          <Text style={[styles.tabText, familyScope && styles.tabTextActive]}>
+            {familyScope ? "👨‍👩‍👧 Đang xem: Tổng hợp gia đình (chạm để tắt)" : "👨‍👩‍👧 Xem: Tổng hợp gia đình (Personal + Business)"}
+          </Text>
+        </TouchableOpacity>
+
+        {reportMode === "month" ? (
+          <MonthlyReportCard report={monthlyReport} />
+        ) : (
+          <QuarterlyReportCard report={quarterlyReport} />
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -308,6 +366,12 @@ const styles = StyleSheet.create({
   tabTextBizActive: {
     color: "#FFFFFF",
     fontWeight: "700",
+  },
+  familyToggle: {
+    marginBottom: Spacing.md,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    backgroundColor: Colors.surface,
   },
   emptyCard: {
     padding: Spacing.xl,
