@@ -1,11 +1,12 @@
 import { create } from "zustand";
-import { User, IncomeSource, Account, Transaction, Budget, ProfitFirstRule } from "../types";
+import { User, IncomeSource, Account, Transaction, Budget, ProfitFirstRule, PlannedExpense } from "../types";
 import { UsersDao } from "../db/usersDao";
 import { IncomeSourcesDao } from "../db/incomeSourcesDao";
 import { AccountsDao } from "../db/accountsDao";
 import { TransactionsDao } from "../db/transactionsDao";
 import { BudgetsDao } from "../db/budgetsDao";
 import { ProfitFirstDao } from "../db/profitFirstDao";
+import { PlannedExpensesDao } from "../db/plannedExpensesDao";
 
 interface AppState {
   user: User | null;
@@ -14,6 +15,7 @@ interface AppState {
   transactions: Transaction[];
   budgets: Budget[];
   profitFirstRules: ProfitFirstRule[];
+  plannedExpenses: PlannedExpense[];
   isLoading: boolean;
   isOnboarded: boolean;
 
@@ -22,12 +24,14 @@ interface AppState {
   fetchAccounts: () => Promise<void>;
   fetchBudgets: (period: string) => Promise<void>;
   fetchProfitFirstRules: (accountId: string) => Promise<void>;
+  fetchPlannedExpenses: (period?: string) => Promise<void>;
   setUser: (user: User | null) => void;
   setIncomeSources: (sources: IncomeSource[]) => void;
   setAccounts: (accounts: Account[]) => void;
   setTransactions: (transactions: Transaction[]) => void;
   setBudgets: (budgets: Budget[]) => void;
   setProfitFirstRules: (rules: ProfitFirstRule[]) => void;
+  setPlannedExpenses: (expenses: PlannedExpense[]) => void;
   saveProfitFirstRules: (accountId: string, rules: ProfitFirstRule[]) => Promise<ProfitFirstRule[]>;
   resetProfitFirstRules: (accountId: string) => Promise<ProfitFirstRule[]>;
   addTransaction: (
@@ -38,6 +42,14 @@ interface AppState {
     data: Parameters<typeof TransactionsDao.update>[1]
   ) => Promise<Transaction | null>;
   deleteTransaction: (id: string) => Promise<boolean>;
+  addPlannedExpense: (
+    data: Parameters<typeof PlannedExpensesDao.create>[0]
+  ) => Promise<PlannedExpense>;
+  updatePlannedExpense: (
+    id: string,
+    data: Parameters<typeof PlannedExpensesDao.update>[1]
+  ) => Promise<PlannedExpense | null>;
+  deletePlannedExpense: (id: string) => Promise<boolean>;
   saveBudgetRules: (
     period: string,
     rules: {
@@ -62,6 +74,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   transactions: [],
   budgets: [],
   profitFirstRules: [],
+  plannedExpenses: [],
   isLoading: true,
   isOnboarded: false,
 
@@ -71,11 +84,12 @@ export const useAppStore = create<AppState>((set, get) => ({
       const user = await UsersDao.getCurrentUser();
       const currentPeriod = new Date().toISOString().substring(0, 7);
       if (user) {
-        const [incomeSources, accounts, transactions, budgets] = await Promise.all([
+        const [incomeSources, accounts, transactions, budgets, plannedExpenses] = await Promise.all([
           IncomeSourcesDao.getByUserId(user.id),
           AccountsDao.getAll(),
           TransactionsDao.getAll(),
           BudgetsDao.getByPeriod(currentPeriod),
+          PlannedExpensesDao.getAll(),
         ]);
 
         const businessAcc = accounts.find((a) => a.type === "business");
@@ -91,6 +105,7 @@ export const useAppStore = create<AppState>((set, get) => ({
           transactions,
           budgets,
           profitFirstRules,
+          plannedExpenses,
           isOnboarded: true,
           isLoading: false,
         });
@@ -102,6 +117,7 @@ export const useAppStore = create<AppState>((set, get) => ({
           transactions: [],
           budgets: [],
           profitFirstRules: [],
+          plannedExpenses: [],
           isOnboarded: false,
           isLoading: false,
         });
@@ -202,6 +218,42 @@ export const useAppStore = create<AppState>((set, get) => ({
         AccountsDao.getAll(),
       ]);
       set({ transactions, accounts });
+    }
+    return success;
+  },
+
+  fetchPlannedExpenses: async (period?: string) => {
+    try {
+      const plannedExpenses = period
+        ? await PlannedExpensesDao.getByPeriod(period)
+        : await PlannedExpensesDao.getAll();
+      set({ plannedExpenses });
+    } catch (err) {
+      console.error("fetchPlannedExpenses error:", err);
+    }
+  },
+
+  setPlannedExpenses: (plannedExpenses) => set({ plannedExpenses }),
+
+  addPlannedExpense: async (data) => {
+    const newPe = await PlannedExpensesDao.create(data);
+    const plannedExpenses = await PlannedExpensesDao.getAll();
+    set({ plannedExpenses });
+    return newPe;
+  },
+
+  updatePlannedExpense: async (id, data) => {
+    const updated = await PlannedExpensesDao.update(id, data);
+    const plannedExpenses = await PlannedExpensesDao.getAll();
+    set({ plannedExpenses });
+    return updated;
+  },
+
+  deletePlannedExpense: async (id) => {
+    const success = await PlannedExpensesDao.delete(id);
+    if (success) {
+      const plannedExpenses = await PlannedExpensesDao.getAll();
+      set({ plannedExpenses });
     }
     return success;
   },

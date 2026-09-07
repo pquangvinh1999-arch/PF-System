@@ -1,8 +1,8 @@
 {
   "project": "Vén - App Quản lý Tài chính Cá nhân",
-  "last_updated": "2026-09-07T08:52:00Z",
+  "last_updated": "2026-09-07T09:03:00Z",
   "current_phase": "phase_3_5_calendar",
-  "current_task": "3.5.2",
+  "current_task": "3.5.3",
   "phases": [
     {
       "id": "phase_0_setup",
@@ -125,7 +125,7 @@
         {
           "id": "3.5.2",
           "name": "CashFlowForecastBar + thuật toán",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "3.5.3",
@@ -264,5 +264,5 @@
   "blockers": [],
   "learning_log_ref": "LEARNING.md",
   "report_log_ref": "REPORT.md",
-  "notes_for_next_session": "Phase 3 hoàn tất 100%. Bắt đầu Phase 3.5: Calendar - Lịch chi tiêu xa (thay Map) - Task 3.5.1: CalendarGrid UI."
+  "notes_for_next_session": "Task 3.5.2 hoàn tất (QC PASS). Bắt đầu Task 3.5.3: PlannedExpense CRUD + bottom sheet."
 }
