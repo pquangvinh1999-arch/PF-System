@@ -100,8 +100,9 @@ REPORT.md là bằng chứng cuối cùng để chốt kết quả dự án — 
 ## 6. Giới hạn giao tiếp với user
 
 - Khi task đang chạy bình thường (QC pass liên tục) → agent KHÔNG hỏi lại user, tự động tiếp tục theo `LOOP.md`
-- Khi gặp thông tin thiếu/mơ hồ, hoặc cần quyết định vượt phạm vi đã duyệt (đổi kiến trúc, cài lib mới, đổi công thức tài chính) → BẮT BUỘC dừng và hỏi, ghi câu hỏi vào `state.json.pending_questions`
-- Khi hoàn thành toàn bộ các phase trong PLAN.md → dừng loop, tổng hợp bàn giao trong REPORT.md, thông báo user
+- Khi hoàn thành 1 phase → TỰ ĐỘNG đánh dấu phase done và chuyển ngay sang phase tiếp theo, TUYỆT ĐỐI KHÔNG dừng lại hỏi user xác nhận sau mỗi phase
+- Khi gặp thông tin thiếu/mơ hồ, hoặc cần đề xuất/xác nhận các quyết định quan trọng (theo `setting.json`) → BẮT BUỘC dừng và hỏi, ghi câu hỏi vào `state.json.pending_questions`
+- Khi hoàn thành toàn bộ 100% các phase trong PLAN.md → dừng loop, tổng hợp bàn giao trong REPORT.md, thông báo user
 
 ---
 
