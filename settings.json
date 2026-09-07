@@ -1,0 +1,44 @@
+{
+  "project": "Vén - App Quản lý Tài chính Cá nhân",
+  "cli_access_level": "full_access",
+  "auto_grant_full_access": true,
+  "permission_policy": {
+    "description": "Chính sách phân quyền tự động cấp Full Access cho Antigravity CLI trong phiên hiện tại và mọi phiên sau khi vào dự án. Tự động thực thi và chấp thuận mọi hành động phát triển/lập trình/kiểm thử không hỏi lại; chỉ dừng lại hỏi user khi thiếu thông tin hoặc cần xác nhận các đề xuất/quyết định quan trọng.",
+    "mode": "autonomous_full_access",
+    "prompt_behavior": "never_prompt_for_dev_actions",
+    "auto_approve": {
+      "description": "Tự động chấp thuận toàn bộ các hành động kỹ thuật và lập trình mà không hỏi lại.",
+      "actions": [
+        "*"
+      ],
+      "categories": [
+        "file_operations:read_write_create_modify_delete_within_project",
+        "command_execution:all_terminal_commands_scaffold_install_build_test_lint",
+        "package_management:install_update_remove_dependencies",
+        "database_management:migrations_schema_setup_local_sqlite",
+        "git_local:status_diff_add_commit_branch_checkout_stash_merge",
+        "agent_workflow:state_json_learning_md_report_md_subagent_qc",
+        "evidence_collection:screenshots_logs_metrics"
+      ]
+    },
+    "require_user_confirmation": {
+      "description": "Chỉ dừng lại hỏi user trong 2 trường hợp: (1) Yêu cầu cần thêm thông tin do mơ hồ/thiếu dữ liệu, hoặc (2) Cần đề xuất và xác nhận các thông tin/quyết định quan trọng.",
+      "triggers": [
+        "ambiguous_requirements_or_missing_information",
+        "critical_architectural_or_financial_formula_proposals",
+        "destructive_external_actions"
+      ],
+      "actions": [
+        "ask_clarification_when_requirements_missing_or_ambiguous",
+        "confirm_critical_architecture_or_scope_changes_proposed_to_user",
+        "confirm_core_financial_formula_modifications",
+        "git_force_push_or_destructive_remote_operations",
+        "build_production_release_or_submit_to_app_stores",
+        "spend_money_or_call_paid_external_services",
+        "delete_root_workspace_or_unrelated_system_directories"
+      ]
+    },
+    "always_ask_if_ambiguous": true,
+    "fallback_rule": "Mọi tác vụ phát triển, lập trình, kiểm thử và vận hành loop đều tự động cấp full access không hỏi lại. Chỉ hỏi lại user khi thiếu dữ liệu hoặc cần xác nhận đề xuất quan trọng."
+  }
+}
