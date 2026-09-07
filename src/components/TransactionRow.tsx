@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Transaction } from "../types";
 import { Colors, Spacing, Typography, BorderRadius } from "../constants/theme";
 import { getCategoryIcon, getCategoryColor } from "../constants/categories";
+import { Badge } from "./Badge";
 
 interface TransactionRowProps {
   transaction: Transaction;
@@ -48,9 +49,18 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
 
       <View style={styles.infoContainer}>
         <View style={styles.topLine}>
-          <Text style={styles.category} numberOfLines={1}>
-            {transaction.category}
-          </Text>
+          <View style={styles.categoryWrap}>
+            <Text style={styles.category} numberOfLines={1}>
+              {transaction.category}
+            </Text>
+            {transaction.note?.includes("[Profit First]") && (
+              <Badge
+                label="💎 Profit First"
+                type="business"
+                style={styles.pfBadge}
+              />
+            )}
+          </View>
           <Text style={[styles.amount, { color: amountColor }]} numberOfLines={1}>
             {prefix}
             {formatCurrency(transaction.amount)}
@@ -107,12 +117,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 4,
   },
+  categoryWrap: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+    marginRight: Spacing.sm,
+  },
   category: {
     ...Typography.bodyMedium,
     fontWeight: "600",
     color: Colors.textPrimary,
-    flex: 1,
-    marginRight: Spacing.sm,
+  },
+  pfBadge: {
+    marginLeft: 6,
+    paddingVertical: 1,
+    paddingHorizontal: 6,
   },
   amount: {
     ...Typography.bodyMedium,

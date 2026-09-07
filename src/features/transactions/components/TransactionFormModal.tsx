@@ -28,6 +28,8 @@ import {
   getCategoriesByType,
   getCategoryIcon,
 } from "../../../constants/categories";
+import { ProfitFirstBreakdown } from "../../profitFirst/components/ProfitFirstBreakdown";
+import { ProfitFirstService } from "../../../services/profitFirstService";
 
 export const TransactionFormModal: React.FC<Props> = ({
   visible,
@@ -37,6 +39,7 @@ export const TransactionFormModal: React.FC<Props> = ({
 }) => {
   const accounts = useAppStore((state) => state.accounts);
   const incomeSources = useAppStore((state) => state.incomeSources);
+  const profitFirstRules = useAppStore((state) => state.profitFirstRules);
   const addTransaction = useAppStore((state) => state.addTransaction);
   const updateTransaction = useAppStore((state) => state.updateTransaction);
   const deleteTransaction = useAppStore((state) => state.deleteTransaction);
@@ -51,6 +54,11 @@ export const TransactionFormModal: React.FC<Props> = ({
   const [date, setDate] = useState<string>("");
   const [note, setNote] = useState<string>("");
   const [incomeSourceId, setIncomeSourceId] = useState<string>("");
+
+  const selectedAccount = accounts.find((a) => a.id === accountId);
+  const isBusinessRevenue =
+    type === "income" &&
+    (selectedAccount?.type === "business" || category === "Doanh thu kinh doanh");
 
   useEffect(() => {
     if (visible) {
@@ -107,6 +115,20 @@ export const TransactionFormModal: React.FC<Props> = ({
 
     const txDate = date.trim() || new Date().toISOString().split("T")[0];
 
+    let finalNote = note.trim();
+    if (isBusinessRevenue && profitFirstRules.length > 0) {
+      const allocation = ProfitFirstService.calculateAllocation(numAmount, profitFirstRules);
+      const breakdownSummary = allocation.allocations
+        .map((a) => `${a.title}: ${new Intl.NumberFormat("vi-VN").format(a.amount)}đ (${a.percentage}%)`)
+        .join(" | ");
+
+      if (!finalNote.includes("[Profit First]")) {
+        finalNote = finalNote
+          ? `${finalNote}\n[Profit First]: ${breakdownSummary}`
+          : `[Profit First]: ${breakdownSummary}`;
+      }
+    }
+
     try {
       if (isEditing && transactionToEdit) {
         await updateTransaction(transactionToEdit.id, {
@@ -117,7 +139,7 @@ export const TransactionFormModal: React.FC<Props> = ({
           date: txDate,
           income_source_id: type === "income" ? incomeSourceId || undefined : undefined,
           to_account_id: type === "transfer" ? toAccountId || undefined : undefined,
-          note: note.trim(),
+          note: finalNote,
         });
       } else {
         await addTransaction({
@@ -128,7 +150,7 @@ export const TransactionFormModal: React.FC<Props> = ({
           date: txDate,
           income_source_id: type === "income" ? incomeSourceId || undefined : undefined,
           to_account_id: type === "transfer" ? toAccountId || undefined : undefined,
-          note: note.trim(),
+          note: finalNote,
         });
       }
 
@@ -164,7 +186,6 @@ export const TransactionFormModal: React.FC<Props> = ({
     );
   };
 
-  const selectedAccount = accounts.find((a) => a.id === accountId);
   const availableCategories = getCategoriesByType(type, selectedAccount?.type);
 
   return (
@@ -310,6 +331,15 @@ export const TransactionFormModal: React.FC<Props> = ({
                 </TouchableOpacity>
               ))}
             </View>
+
+            {/* Phân bổ tự động Profit First nếu là Doanh thu kinh doanh */}
+            {isBusinessRevenue && parseFloat(amount) > 0 && profitFirstRules.length > 0 && (
+              <ProfitFirstBreakdown
+                revenueAmount={parseFloat(amount)}
+                rules={profitFirstRules}
+                title="Tự Động Phân Bổ Doanh Thu (Profit First)"
+              />
+            )}
 
             {/* Nguồn thu nhập (nếu type = income) */}
             {type === "income" && incomeSources.length > 0 && (

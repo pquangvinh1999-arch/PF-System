@@ -2,7 +2,7 @@
   "project": "Vén - App Quản lý Tài chính Cá nhân",
   "last_updated": "2026-09-07T08:15:50Z",
   "current_phase": "phase_3_profit_first",
-  "current_task": "3.2",
+  "current_task": "3.3",
   "phases": [
     {
       "id": "phase_0_setup",
@@ -103,12 +103,12 @@
         {
           "id": "3.2",
           "name": "Auto-allocation khi nhập doanh thu",
-          "status": "in_progress"
+          "status": "done"
         },
         {
           "id": "3.3",
           "name": "Báo cáo riêng dòng tiền kinh doanh",
-          "status": "pending"
+          "status": "in_progress"
         }
       ]
     },
@@ -264,5 +264,5 @@
   "blockers": [],
   "learning_log_ref": "LEARNING.md",
   "report_log_ref": "REPORT.md",
-  "notes_for_next_session": "Task 3.1 QC pass. Bắt đầu Task 3.2: Auto-allocation khi nhập doanh thu."
+  "notes_for_next_session": "Task 3.2 QC pass. Bắt đầu Task 3.3: Báo cáo riêng dòng tiền kinh doanh."
 }

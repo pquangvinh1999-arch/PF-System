@@ -86,3 +86,10 @@
 - **Bằng chứng**: Type check `tsc --noEmit` thoát mã 0, toàn bộ 8 bộ unit test (`test/transactions_test.js`, `test/categories_test.js`, `test/accounts_separation_test.js`, `test/dashboard_summary_test.js`, `test/budget_rules_test.js`, `test/budget_alerts_test.js`, `test/budget_chart_test.js`, `test/profit_first_rules_test.js`) PASS 100% (35/35 test cases), xác thực độc lập từ Subagent-QC `43b0d229-c36b-42ee-8b74-83e28c0b47ef`.
 - **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 3.1 (Build pass, Unit test pass, Profit First financial order pass, Schema & Data integrity pass, UI & Design tokens pass, Regression check).
 - **Ghi chú**: Đã hoàn tất Task 3.1. Tự động chuyển tiếp sang Task 3.2: Auto-allocation khi nhập doanh thu.
+
+## [2026-09-07 08:44:35Z] — Task: 3.2 — ✅ PASS
+- **Mô tả task**: Triển khai cơ chế Tự động phân bổ Profit First (Auto-allocation) khi ghi nhận doanh thu kinh doanh. Xây dựng component `ProfitFirstBreakdown.tsx` hiển thị stacked bar 5 màu cùng danh sách chi tiết số tiền và tỷ lệ từng quỹ theo thời gian thực ngay khi nhập số tiền trong `TransactionFormModal.tsx`. Tự động đính kèm chi tiết trích lập `[Profit First]` vào trường note của giao dịch và hiển thị badge nhận diện "💎 Profit First" nổi bật trên từng dòng `TransactionRow.tsx` trong sổ cái. Bảo toàn số dư 100% bao gồm xử lý số dư lẻ odd amounts.
+- **Bằng chứng**: Type check `tsc --noEmit` thoát mã 0, toàn bộ 9 bộ unit test (`test/transactions_test.js`, `test/categories_test.js`, `test/accounts_separation_test.js`, `test/dashboard_summary_test.js`, `test/budget_rules_test.js`, `test/budget_alerts_test.js`, `test/budget_chart_test.js`, `test/profit_first_rules_test.js`, `test/profit_first_auto_allocation_test.js`) PASS 100% (40/40 test cases), xác thực độc lập từ Subagent-QC `c2cebdd4-4af3-47a8-8f72-c6c3b41f8ab9`.
+- **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 3.2 (Build pass, Unit test pass, Real-time auto-allocation pass, Note integration pass, UI & Design tokens pass, Regression check).
+- **Ghi chú**: Đã hoàn tất Task 3.2. Tự động chuyển tiếp sang Task 3.3: Báo cáo riêng dòng tiền kinh doanh.
+
