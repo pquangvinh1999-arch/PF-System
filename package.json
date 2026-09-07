@@ -8,13 +8,14 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "type-check": "tsc --noEmit",
-    "test": "node test/transactions_test.js && node test/categories_test.js && node test/accounts_separation_test.js && node test/dashboard_summary_test.js && node test/budget_rules_test.js && node test/budget_alerts_test.js && node test/budget_chart_test.js && node test/profit_first_rules_test.js && node test/profit_first_auto_allocation_test.js && node test/business_cashflow_report_test.js && node test/calendar_grid_test.js && node test/cash_flow_forecast_test.js"
+    "test": "node test/transactions_test.js && node test/categories_test.js && node test/accounts_separation_test.js && node test/dashboard_summary_test.js && node test/budget_rules_test.js && node test/budget_alerts_test.js && node test/budget_chart_test.js && node test/profit_first_rules_test.js && node test/profit_first_auto_allocation_test.js && node test/business_cashflow_report_test.js && node test/calendar_grid_test.js && node test/cash_flow_forecast_test.js && node test/planned_expenses_crud_test.js && node test/notifications_test.js"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^7.18.18",
     "@react-navigation/native": "^7.3.18",
     "@react-navigation/native-stack": "^7.18.10",
     "expo": "~57.0.20",
+    "expo-notifications": "~57.0.17",
     "expo-sqlite": "~57.0.2",
     "expo-status-bar": "~57.0.1",
     "react": "19.2.3",

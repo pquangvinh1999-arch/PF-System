@@ -1,8 +1,8 @@
 {
   "project": "Vén - App Quản lý Tài chính Cá nhân",
-  "last_updated": "2026-09-07T09:03:00Z",
-  "current_phase": "phase_3_5_calendar",
-  "current_task": "3.5.3",
+  "last_updated": "2026-09-07T09:23:30Z",
+  "current_phase": "phase_4_goals",
+  "current_task": "4.1",
   "phases": [
     {
       "id": "phase_0_setup",
@@ -115,7 +115,7 @@
     {
       "id": "phase_3_5_calendar",
       "name": "Calendar - Lịch chi tiêu xa (thay Map)",
-      "status": "in_progress",
+      "status": "done",
       "tasks": [
         {
           "id": "3.5.1",
@@ -130,19 +130,19 @@
         {
           "id": "3.5.3",
           "name": "PlannedExpense CRUD + bottom sheet",
-          "status": "pending"
+          "status": "done"
         },
         {
           "id": "3.5.4",
           "name": "Local notification nhắc hạn",
-          "status": "pending"
+          "status": "done"
         }
       ]
     },
     {
       "id": "phase_4_goals",
       "name": "Mục tiêu & Quỹ khẩn cấp",
-      "status": "pending",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "4.1",
@@ -264,5 +264,5 @@
   "blockers": [],
   "learning_log_ref": "LEARNING.md",
   "report_log_ref": "REPORT.md",
-  "notes_for_next_session": "Task 3.5.2 hoàn tất (QC PASS). Bắt đầu Task 3.5.3: PlannedExpense CRUD + bottom sheet."
+  "notes_for_next_session": "Phase 3.5 hoàn tất 100% (QC PASS). Bắt đầu Phase 4: Mục tiêu & Quỹ khẩn cấp - Task 4.1: Goal tracker CRUD."
 }

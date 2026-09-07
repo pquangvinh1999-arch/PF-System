@@ -4,3 +4,4 @@ export * from "./Badge";
 export * from "./TransactionRow";
 export * from "./BalanceCard";
 export * from "./BudgetProgressBar";
+export * from "../features/calendar/components/PlannedExpenseSheet";
