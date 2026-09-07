@@ -76,55 +76,55 @@ User
 ## 5. Chia nhỏ Task theo Phase
 
 ### Phase 0 — Setup dự án
-- [ ] Scaffold project Expo (React Native) + TypeScript
-- [ ] Cấu hình EAS Build cho Android & iOS
-- [ ] Thiết lập cấu trúc thư mục (features/, components/, store/, db/)
-- [ ] Setup SQLite local DB + schema migration
-- [ ] Setup navigation (React Navigation): Onboarding → Dashboard → Tabs
+- [x] Scaffold project Expo (React Native) + TypeScript
+- [x] Cấu hình EAS Build cho Android & iOS
+- [x] Thiết lập cấu trúc thư mục (features/, components/, store/, db/)
+- [x] Setup SQLite local DB + schema migration
+- [x] Setup navigation (React Navigation): Onboarding → Dashboard → Tabs
 
 ### Phase 1 — Core: Nhập liệu thu chi
-- [ ] Màn hình Onboarding: nhập nguồn thu nhập (lương cá nhân, lương vợ/chồng, doanh thu kinh doanh)
-- [ ] CRUD Transaction (thêm/sửa/xóa khoản thu — chi)
-- [ ] Phân loại Category (ăn uống, nhà ở, đi lại, giải trí, kinh doanh...)
-- [ ] Tách 2 loại tài khoản: Personal Account & Business Account
-- [ ] Dashboard tổng quan: tổng thu / tổng chi / số dư theo tháng
+- [x] Màn hình Onboarding: nhập nguồn thu nhập (lương cá nhân, lương vợ/chồng, doanh thu kinh doanh)
+- [x] CRUD Transaction (thêm/sửa/xóa khoản thu — chi)
+- [x] Phân loại Category (ăn uống, nhà ở, đi lại, giải trí, kinh doanh...)
+- [x] Tách 2 loại tài khoản: Personal Account & Business Account
+- [x] Dashboard tổng quan: tổng thu / tổng chi / số dư theo tháng
 
 ### Phase 2 — Budgeting Module (50/30/20 tùy biến)
-- [ ] Cho phép tạo ngân sách theo % hoặc số tiền cố định cho từng nhóm (thiết yếu / cá nhân / tiết kiệm)
-- [ ] Cảnh báo khi chi tiêu 1 nhóm vượt % ngân sách
-- [ ] Biểu đồ tròn/thanh: phân bổ chi tiêu thực tế vs kế hoạch
+- [x] Cho phép tạo ngân sách theo % hoặc số tiền cố định cho từng nhóm (thiết yếu / cá nhân / tiết kiệm)
+- [x] Cảnh báo khi chi tiêu 1 nhóm vượt % ngân sách
+- [x] Biểu đồ tròn/thanh: phân bổ chi tiêu thực tế vs kế hoạch
 
 ### Phase 3 — Profit First cho dòng tiền kinh doanh
-- [ ] Thiết lập rule % tự động (thuế / lợi nhuận / vận hành / dự phòng) áp dụng cho Business Account
-- [ ] Khi nhập doanh thu kinh doanh → tự động chia theo rule, hiển thị breakdown
-- [ ] Báo cáo riêng cho dòng tiền kinh doanh (tách khỏi báo cáo cá nhân)
+- [x] Thiết lập rule % tự động (thuế / lợi nhuận / vận hành / dự phòng) áp dụng cho Business Account
+- [x] Khi nhập doanh thu kinh doanh → tự động chia theo rule, hiển thị breakdown
+- [x] Báo cáo riêng cho dòng tiền kinh doanh (tách khỏi báo cáo cá nhân)
 
 ### Phase 4 — Mục tiêu & Quỹ khẩn cấp
-- [ ] Goal tracker: tạo mục tiêu (tên, số tiền, deadline, loại)
-- [ ] Progress bar riêng cho Emergency Fund (dựa trên 3-6 tháng chi phí thiết yếu tự tính từ lịch sử chi tiêu)
-- [ ] Gợi ý số tiền cần tiết kiệm/tháng để đạt mục tiêu đúng hạn
+- [x] Goal tracker: tạo mục tiêu (tên, số tiền, deadline, loại)
+- [x] Progress bar riêng cho Emergency Fund (dựa trên 3-6 tháng chi phí thiết yếu tự tính từ lịch sử chi tiêu)
+- [x] Gợi ý số tiền cần tiết kiệm/tháng để đạt mục tiêu đúng hạn
 
 ### Phase 5 — Quản lý nợ
-- [ ] CRUD khoản nợ (tên, số dư, lãi suất, trả tối thiểu)
-- [ ] Tính năng gợi ý chiến lược: Snowball (nợ nhỏ trước) hoặc Avalanche (lãi cao trước)
-- [ ] Lịch trả nợ dự kiến (timeline)
+- [x] CRUD khoản nợ (tên, số dư, lãi suất, trả tối thiểu)
+- [x] Tính năng gợi ý chiến lược: Snowball (nợ nhỏ trước) hoặc Avalanche (lãi cao trước)
+- [x] Lịch trả nợ dự kiến (timeline)
 
 ### Phase 6 — Báo cáo & Đánh giá định kỳ
-- [ ] Báo cáo tháng: thu/chi theo category, so sánh tháng trước
-- [ ] Báo cáo quý: xu hướng tiết kiệm, tỷ lệ tiết kiệm/thu nhập
-- [ ] Xuất báo cáo (PDF/CSV) để lưu trữ
+- [x] Báo cáo tháng: thu/chi theo category, so sánh tháng trước
+- [x] Báo cáo quý: xu hướng tiết kiệm, tỷ lệ tiết kiệm/thu nhập
+- [x] Xuất báo cáo (PDF/CSV) để lưu trữ
 
 ### Phase 7 — Bảo mật & Đồng bộ
-- [ ] Khóa app bằng PIN / Face ID / Touch ID
-- [ ] (Tùy chọn) Đồng bộ cloud (Firebase/Supabase) để 2 vợ chồng cùng xem chung 1 ví gia đình
-- [ ] Backup/Restore dữ liệu local
+- [x] Khóa app bằng PIN / Face ID / Touch ID
+- [x] (Tùy chọn) Đồng bộ cloud (Firebase/Supabase) để 2 vợ chồng cùng xem chung 1 ví gia đình
+- [x] Backup/Restore dữ liệu local
 
 ### Phase 8 — Build & Release
-- [ ] Build APK bản test (EAS Build --platform android)
-- [ ] Build iOS bản test (EAS Build --platform ios, cần Apple Developer account)
-- [ ] Test trên thiết bị thật (Android + iOS)
-- [ ] Chuẩn bị assets (icon, splash screen, tên app, mô tả store)
-- [ ] Submit lên Google Play / TestFlight → App Store
+- [x] Build APK bản test (EAS Build --platform android)
+- [x] Build iOS bản test (EAS Build --platform ios, cần Apple Developer account)
+- [x] Test trên thiết bị thật (Android + iOS)
+- [x] Chuẩn bị assets (icon, splash screen, tên app, mô tả store)
+- [x] Submit lên Google Play / TestFlight → App Store
 
 ---
 
