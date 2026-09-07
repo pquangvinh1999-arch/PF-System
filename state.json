@@ -2,7 +2,7 @@
   "project": "Vén - App Quản lý Tài chính Cá nhân",
   "last_updated": "2026-09-07T08:15:50Z",
   "current_phase": "phase_2_budget",
-  "current_task": "2.2",
+  "current_task": "2.3",
   "phases": [
     {
       "id": "phase_0_setup",
@@ -81,12 +81,12 @@
         {
           "id": "2.2",
           "name": "Cảnh báo vượt ngân sách",
-          "status": "in_progress"
+          "status": "done"
         },
         {
           "id": "2.3",
           "name": "Biểu đồ phân bổ chi tiêu",
-          "status": "pending"
+          "status": "in_progress"
         }
       ]
     },
@@ -264,5 +264,5 @@
   "blockers": [],
   "learning_log_ref": "LEARNING.md",
   "report_log_ref": "REPORT.md",
-  "notes_for_next_session": "Task 2.1 QC pass. Bắt đầu Task 2.2: Cảnh báo vượt ngân sách."
+  "notes_for_next_session": "Task 2.2 QC pass. Bắt đầu Task 2.3: Biểu đồ phân bổ chi tiêu."
 }

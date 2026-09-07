@@ -68,3 +68,11 @@
 - **Bằng chứng**: Type check `tsc --noEmit` mã thoát 0, 5/5 bộ unit test (`test/transactions_test.js`, `test/categories_test.js`, `test/accounts_separation_test.js`, `test/dashboard_summary_test.js`, `test/budget_rules_test.js`) PASS 100% (20/20 test cases), xác thực độc lập từ Subagent-QC `b8c51b23-49f4-4d37-bd9b-18aa196067b8`.
 - **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 2.1 (Build & Type check pass, Unit test suite pass, Functional completeness, UI & Design tokens, Schema & Data integrity, Regression check).
 - **Ghi chú**: Đã hoàn tất Task 2.1. Tự động chuyển tiếp sang Task 2.2: Cảnh báo vượt ngân sách.
+
+## [2026-09-07 08:30:15Z] — Task: 2.2 — ✅ PASS
+- **Mô tả task**: Xây dựng hệ thống cảnh báo vượt ngân sách thông minh đa cấp độ (`BudgetAlertService.ts`) với 3 ngưỡng: An toàn (dưới 80%), Chú ý/Cảnh báo (từ 80% đến 99%), Nguy hiểm/Bội chi (>= 100%). Hiển thị banner cảnh báo tương tác trực tiếp trên Dashboard (`BudgetAlertBanner.tsx`) và popup phân tích chi tiết (`BudgetAlertModal.tsx`) liệt kê số tiền bội chi, đề xuất hành động thông minh theo từng nhóm chi tiêu (Needs, Wants, Savings) và tự động trích xuất top 3 giao dịch lớn nhất gây thâm hụt.
+- **Bằng chứng**: Type check `tsc --noEmit` thoát mã 0, 6/6 bộ unit test (`test/transactions_test.js`, `test/categories_test.js`, `test/accounts_separation_test.js`, `test/dashboard_summary_test.js`, `test/budget_rules_test.js`, `test/budget_alerts_test.js`) PASS 100% (25/25 test cases), xác thực độc lập từ Subagent-QC `c6c62191-d435-4658-85ec-02aa66f6d9f5`.
+- **Kết quả QC**: PASS toàn bộ checklist QC-Gate cho Task 2.2 (Build & Type check pass, Unit test suite pass, Financial logic threshold pass, UI & Design tokens pass, Schema & Data integrity, Regression check).
+- **Ghi chú**: Đã hoàn tất Task 2.2. Tự động chuyển tiếp sang Task 2.3: Biểu đồ phân bổ chi tiêu.
+
+

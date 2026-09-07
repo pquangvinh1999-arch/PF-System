@@ -15,8 +15,11 @@ import { useAppStore } from "../../../store/useAppStore";
 import { Transaction } from "../../../types";
 import { TransactionFormModal } from "../../transactions/components/TransactionFormModal";
 import { BudgetConfigModal } from "../../budget/components/BudgetConfigModal";
+import { BudgetAlertBanner } from "../../budget/components/BudgetAlertBanner";
+import { BudgetAlertModal } from "../../budget/components/BudgetAlertModal";
 import { getCategoryIcon } from "../../../constants/categories";
 import { BudgetService } from "../../../services/budgetService";
+import { BudgetAlertService } from "../../../services/budgetAlertService";
 import { MainTabParamList } from "../../../navigation/types";
 
 export const DashboardScreen: React.FC = () => {
@@ -30,6 +33,7 @@ export const DashboardScreen: React.FC = () => {
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [budgetModalVisible, setBudgetModalVisible] = useState<boolean>(false);
+  const [alertModalVisible, setAlertModalVisible] = useState<boolean>(false);
   const [selectedTx, setSelectedTx] = useState<Transaction | null>(null);
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>("Tất cả");
 
@@ -73,6 +77,12 @@ export const DashboardScreen: React.FC = () => {
   }, [selectedMonth, fetchBudgets]);
 
   const budgetSummary = BudgetService.calculateGroupStatus(
+    selectedMonth,
+    budgets,
+    transactions
+  );
+
+  const budgetAlertReport = BudgetAlertService.checkBudgetAlerts(
     selectedMonth,
     budgets,
     transactions
@@ -249,18 +259,11 @@ export const DashboardScreen: React.FC = () => {
           </TouchableOpacity>
         </View>
 
-        {/* Cảnh báo nếu có nhóm vượt ngân sách */}
-        {budgetSummary.isAnyOverBudget && (
-          <Card style={styles.overBudgetAlertCard}>
-            <Text style={styles.alertIcon}>⚠️</Text>
-            <View style={styles.alertContent}>
-              <Text style={styles.alertTitle}>Cảnh báo vượt ngân sách!</Text>
-              <Text style={styles.alertDesc}>
-                Một hoặc nhiều nhóm chi tiêu đã vượt hạn mức phân bổ. Vui lòng rà soát lại các khoản chi.
-              </Text>
-            </View>
-          </Card>
-        )}
+        {/* Cảnh báo ngưỡng ngân sách (>=80% warning, >=100% danger) */}
+        <BudgetAlertBanner
+          report={budgetAlertReport}
+          onPressDetails={() => setAlertModalVisible(true)}
+        />
 
         {/* 3 Thanh tiến độ nhóm 50/30/20 */}
         <BudgetProgressBar status={budgetSummary.groups.needs} />
@@ -380,6 +383,14 @@ export const DashboardScreen: React.FC = () => {
         period={selectedMonth}
         onClose={() => setBudgetModalVisible(false)}
         onSuccess={() => fetchBudgets(selectedMonth)}
+      />
+
+      {/* Modal Chi tiết Cảnh báo Ngân sách */}
+      <BudgetAlertModal
+        visible={alertModalVisible}
+        report={budgetAlertReport}
+        onClose={() => setAlertModalVisible(false)}
+        onOpenConfig={() => setBudgetModalVisible(true)}
       />
     </SafeAreaView>
   );
