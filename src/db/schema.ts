@@ -113,9 +113,9 @@ export const INITIAL_MIGRATION_SQL = [
     due_date TEXT NOT NULL,
     category TEXT NOT NULL,
     account_id TEXT NOT NULL,
-    recurrence TEXT NOT NULL CHECK(recurrence IN ("none", "monthly", "yearly")),
+    recurrence TEXT NOT NULL CHECK(recurrence IN ('none', 'monthly', 'yearly')),
     linked_goal_id TEXT,
-    status TEXT NOT NULL CHECK(status IN ("upcoming", "paid", "overdue")),
+    status TEXT NOT NULL CHECK(status IN ('upcoming', 'paid', 'overdue')),
     note TEXT,
     FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE,
     FOREIGN KEY (linked_goal_id) REFERENCES goals(id) ON DELETE SET NULL

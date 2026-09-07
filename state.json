@@ -1,8 +1,8 @@
 {
   "project": "Vén - App Quản lý Tài chính Cá nhân",
-  "last_updated": "2026-09-07T08:15:50Z",
+  "last_updated": "2026-09-07T08:52:00Z",
   "current_phase": "phase_3_5_calendar",
-  "current_task": "3.5.1",
+  "current_task": "3.5.2",
   "phases": [
     {
       "id": "phase_0_setup",
@@ -120,7 +120,7 @@
         {
           "id": "3.5.1",
           "name": "CalendarGrid UI",
-          "status": "in_progress"
+          "status": "done"
         },
         {
           "id": "3.5.2",
