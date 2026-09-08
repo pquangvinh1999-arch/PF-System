@@ -4,8 +4,8 @@
   "main": "index.ts",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "type-check": "tsc --noEmit",
     "test": "node test/transactions_test.js && node test/categories_test.js && node test/accounts_separation_test.js && node test/dashboard_summary_test.js && node test/budget_rules_test.js && node test/budget_alerts_test.js && node test/budget_chart_test.js && node test/profit_first_rules_test.js && node test/profit_first_auto_allocation_test.js && node test/business_cashflow_report_test.js && node test/calendar_grid_test.js && node test/cash_flow_forecast_test.js && node test/planned_expenses_crud_test.js && node test/notifications_test.js && node test/goals_crud_test.js && node test/emergency_fund_test.js && node test/goal_suggestion_test.js && node test/debts_test.js && node test/reports_test.js && node test/security_test.js"
