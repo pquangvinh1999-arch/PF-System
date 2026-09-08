@@ -8,7 +8,7 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "type-check": "tsc --noEmit",
-    "test": "node test/transactions_test.js && node test/categories_test.js && node test/accounts_separation_test.js && node test/dashboard_summary_test.js && node test/budget_rules_test.js && node test/budget_alerts_test.js && node test/budget_chart_test.js && node test/profit_first_rules_test.js && node test/profit_first_auto_allocation_test.js && node test/business_cashflow_report_test.js && node test/calendar_grid_test.js && node test/cash_flow_forecast_test.js && node test/planned_expenses_crud_test.js && node test/notifications_test.js && node test/goals_crud_test.js && node test/emergency_fund_test.js && node test/goal_suggestion_test.js && node test/debts_test.js && node test/reports_test.js && node test/security_test.js"
+    "test": "node test/transactions_test.js && node test/categories_test.js && node test/accounts_separation_test.js && node test/dashboard_summary_test.js && node test/budget_rules_test.js && node test/budget_alerts_test.js && node test/budget_chart_test.js && node test/profit_first_rules_test.js && node test/profit_first_auto_allocation_test.js && node test/business_cashflow_report_test.js && node test/calendar_grid_test.js && node test/cash_flow_forecast_test.js && node test/planned_expenses_crud_test.js && node test/notifications_test.js && node test/goals_crud_test.js && node test/emergency_fund_test.js && node test/goal_suggestion_test.js && node test/debts_test.js && node test/reports_test.js && node test/security_test.js && node test/pwa_cache_test.js"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^7.18.18",
@@ -20,9 +20,11 @@
     "expo-sqlite": "~57.0.2",
     "expo-status-bar": "~57.0.1",
     "react": "19.2.3",
+    "react-dom": "19.2.3",
     "react-native": "0.86.3",
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "~4.26.0",
+    "react-native-web": "^0.21.2",
     "zustand": "^5.0.15"
   },
   "devDependencies": {

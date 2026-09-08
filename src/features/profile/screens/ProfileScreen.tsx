@@ -6,6 +6,7 @@ import { useAppStore } from "../../../store/useAppStore";
 import { BiometricService } from "../../../services/biometricService";
 import { BackupService } from "../../../services/backupService";
 import { SyncService } from "../../../services/syncService";
+import { getPwaStatus, safeClearAppCache } from "../../../pwa/cacheManager";
 
 export const ProfileScreen: React.FC = () => {
   const lockEnabled = useAppStore((s) => s.lockEnabled);
@@ -22,6 +23,27 @@ export const ProfileScreen: React.FC = () => {
   const [backupOut, setBackupOut] = useState("");
   const [restoreIn, setRestoreIn] = useState("");
   const [backupMsg, setBackupMsg] = useState("");
+
+  const pwaStatus = getPwaStatus();
+  const [cacheMsg, setCacheMsg] = useState("");
+  const [isCleaningCache, setIsCleaningCache] = useState(false);
+
+  const handleSafeClearCache = async () => {
+    setIsCleaningCache(true);
+    setCacheMsg("⏳ Đang thực hiện thuật toán xóa cache an toàn...");
+    try {
+      const res = await safeClearAppCache({ reloadAfter: false });
+      setCacheMsg(res.message);
+    } catch (e: any) {
+      setCacheMsg(`⚠️ ${e?.message || "Lỗi xóa cache"}`);
+    } finally {
+      setIsCleaningCache(false);
+    }
+  };
+
+  const handleForceReloadApp = async () => {
+    await safeClearAppCache({ reloadAfter: true });
+  };
 
   const handleSetupPin = async () => {
     const r = await setupPin(pin);
@@ -67,7 +89,7 @@ export const ProfileScreen: React.FC = () => {
       const payload = collectState();
       const blob = BackupService.encrypt(payload, backupKey);
       setBackupOut(blob);
-      await Share.share({ message: blob, title: "Backup Vén (mã hóa)" });
+      await Share.share({ message: blob, title: "Backup Tài Chính Nhà Bơ (mã hóa)" });
       setBackupMsg("✅ Đã tạo backup mã hóa — hãy lưu chuỗi này ở nơi an toàn.");
     } catch (e: any) {
       setBackupMsg(`⚠️ ${e?.message || "Không tạo được backup"}`);
@@ -164,6 +186,62 @@ export const ProfileScreen: React.FC = () => {
           {Boolean(backupMsg) && <Text style={styles.msg}>{backupMsg}</Text>}
         </Card>
 
+        {/* Card Quản lý PWA & Xóa Cache An Toàn */}
+        <Card style={styles.card}>
+          <Badge
+            label={pwaStatus.isStandalone ? "PWA: Đã thêm MH chính" : pwaStatus.isWeb ? "PWA: Sẵn sàng cài đặt" : "Native App"}
+            type={pwaStatus.isStandalone ? "success" : "primary"}
+            style={styles.badge}
+          />
+          <Text style={styles.title}>🌐 Quản lý PWA & Bộ nhớ đệm (Cache Safe)</Text>
+          <Text style={styles.desc}>
+            Cài đặt ứng dụng trực tiếp từ trình duyệt về màn hình chính trên iOS Safari & Android (APK / WebAPK) tiện lợi, không cần App Store.
+          </Text>
+
+          <View style={styles.infoBox}>
+            <Text style={styles.infoTitle}>🛡️ Thuật toán bảo vệ Icon & Dữ liệu:</Text>
+            <Text style={styles.infoItem}>• <Text style={styles.bold}>Không mất Icon Safari & APK:</Text> Tách biệt vùng đệm <Text style={styles.monoInline}>Identity Cache</Text> bất biến, tuyệt đối không bị xóa khi dọn dẹp bộ nhớ đệm.</Text>
+            <Text style={styles.infoItem}>• <Text style={styles.bold}>An toàn tài chính 100%:</Text> Bảo vệ cơ sở dữ liệu SQLite & mã khóa bảo mật, chỉ dọn dẹp các tệp JS/CSS cũ lỗi thời.</Text>
+            <Text style={styles.infoItem}>• <Text style={styles.bold}>Khởi động tức thì:</Text> Hỗ trợ hoạt động mượt mà và ngoại tuyến (Offline) ngay cả khi không có kết nối mạng.</Text>
+          </View>
+
+          {Boolean(cacheMsg) && <Text style={styles.msg}>{cacheMsg}</Text>}
+
+          <View style={styles.row}>
+            <TouchableOpacity
+              style={[styles.primaryBtn, isCleaningCache && styles.disabledBtn]}
+              onPress={handleSafeClearCache}
+              disabled={isCleaningCache}
+            >
+              <Text style={styles.primaryText}>{isCleaningCache ? "⏳ Đang dọn dẹp..." : "🧹 Xóa cache an toàn"}</Text>
+            </TouchableOpacity>
+            {pwaStatus.isWeb && (
+              <TouchableOpacity
+                style={styles.ghostBtnRow}
+                onPress={handleForceReloadApp}
+              >
+                <Text style={styles.ghostText}>🔄 Làm mới app</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+
+          {/* Hướng dẫn cài đặt theo thiết bị Safari & Android */}
+          {!pwaStatus.isStandalone && pwaStatus.isWeb && (
+            <View style={styles.installGuideBox}>
+              <Text style={styles.guideTitle}>📲 Hướng dẫn thêm vào màn hình chính:</Text>
+              {pwaStatus.isIOS ? (
+                <Text style={styles.guideText}>
+                  Trên <Text style={styles.bold}>Safari iOS</Text>: Bấm biểu tượng <Text style={styles.bold}>Chia sẻ (Share ⎋)</Text> ở thanh dưới trình duyệt ➔ Chọn <Text style={styles.bold}>"Thêm vào MH chính" (Add to Home Screen)</Text>. Icon Tài Chính Nhà Bơ sẽ cố định trên màn hình chính như ứng dụng gốc.
+                </Text>
+              ) : (
+                <Text style={styles.guideText}>
+                  Trên <Text style={styles.bold}>Android / Chrome</Text>: Bấm menu <Text style={styles.bold}>3 chấm (⋮)</Text> ở góc trên ➔ Chọn <Text style={styles.bold}>"Cài đặt ứng dụng" (Install App)</Text> hoặc <Text style={styles.bold}>"Thêm vào Màn hình chính"</Text>.
+                </Text>
+              )}
+            </View>
+          )}
+        </Card>
+
         <Card style={styles.card}>
           <Badge label="Tùy chọn" type="business" style={styles.badge} />
           <Text style={styles.title}>☁️ Đồng bộ cloud</Text>
@@ -196,9 +274,19 @@ const styles = StyleSheet.create({
   primaryBtn: { flex: 1, backgroundColor: Colors.primary, borderRadius: BorderRadius.button, paddingVertical: Spacing.sm, alignItems: "center" },
   primaryText: { color: "#FFFFFF", fontWeight: "700", fontSize: 13 },
   ghostBtn: { marginTop: Spacing.sm, borderWidth: 1, borderColor: Colors.border, borderRadius: BorderRadius.button, paddingVertical: Spacing.sm, alignItems: "center" },
+  ghostBtnRow: { flex: 1, borderWidth: 1, borderColor: Colors.border, borderRadius: BorderRadius.button, paddingVertical: Spacing.sm, alignItems: "center" },
   ghostText: { color: Colors.primary, fontWeight: "700", fontSize: 13 },
   bioBtn: { marginTop: Spacing.sm, backgroundColor: Colors.primaryLight, borderRadius: BorderRadius.button, paddingVertical: Spacing.sm, alignItems: "center" },
   bioText: { color: Colors.primary, fontWeight: "700", fontSize: 13 },
   disabledText: { opacity: 0.4 },
+  disabledBtn: { opacity: 0.6 },
   dangerBtn: { marginTop: Spacing.md, backgroundColor: Colors.danger, borderRadius: BorderRadius.button, paddingVertical: Spacing.sm, alignItems: "center" },
+  infoBox: { backgroundColor: "#F2EFE9", borderRadius: BorderRadius.card, padding: Spacing.md, marginVertical: Spacing.sm },
+  infoTitle: { fontSize: 13, fontWeight: "700", color: Colors.textPrimary, marginBottom: 4 },
+  infoItem: { fontSize: 12, color: Colors.textSecondary, lineHeight: 18, marginTop: 2 },
+  bold: { fontWeight: "700", color: Colors.textPrimary },
+  monoInline: { fontFamily: "monospace", fontSize: 11, backgroundColor: "#EAE6DE", paddingHorizontal: 4, borderRadius: 3 },
+  installGuideBox: { marginTop: Spacing.md, padding: Spacing.md, backgroundColor: "#E8F5E9", borderRadius: BorderRadius.card, borderWidth: 1, borderColor: "#C8E6C9" },
+  guideTitle: { fontSize: 13, fontWeight: "700", color: "#1B5E20", marginBottom: 4 },
+  guideText: { fontSize: 12, color: "#2E7D32", lineHeight: 18 },
 });

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no, viewport-fit=cover" />
+    <title>Tài Chính Nhà Bơ</title>
+
+    <!-- PWA & Web App Meta Tags -->
+    <meta name="description" content="Tài Chính Nhà Bơ - Hệ thống quản lý tài chính cá nhân & kinh doanh thông minh theo nguyên tắc Profit First" />
+    <meta name="theme-color" content="#0F6E5B" />
+    <meta name="application-name" content="Tài Chính Nhà Bơ" />
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <!-- iOS Safari Web App Meta Tags (Chống mất icon và giữ chế độ toàn màn hình Standalone) -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Tài Chính Nhà Bơ" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Apple Touch Icons cho Safari màn hình chính (Đủ kích cỡ chuẩn Retina & iPad) -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png" />
+    <link rel="apple-touch-startup-image" href="/splash-icon.png" />
+
+    <!-- Android, Chrome & Windows Phone Icons -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#0F6E5B" />
+    <meta name="msapplication-TileImage" content="/icons/icon-144.png" />
+
+    <!-- Style reset tương thích React Native Web & Dark/Light System Theme -->
+    <style id="expo-reset">
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #F7F5F0;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        user-select: none;
+      }
+      body {
+        overflow: hidden;
+      }
+      #root {
+        display: flex;
+        height: 100%;
+        flex: 1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <noscript>
+      <div style="padding: 24px; text-align: center; font-family: -apple-system, BlinkMacSystemFont, sans-serif;">
+        <h2>Tài Chính Nhà Bơ</h2>
+        <p>Vui lòng bật JavaScript để sử dụng ứng dụng.</p>
+      </div>
+    </noscript>
+
+    <div id="root"></div>
+
+    <!-- Script tự động kiểm tra và đăng ký Service Worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js', { scope: '/' })
+            .then(function(reg) {
+              console.log('[PWA] Service Worker đăng ký thành công với scope:', reg.scope);
+              
+              // Lắng nghe cập nhật Service Worker
+              reg.onupdatefound = function() {
+                var installingWorker = reg.installing;
+                if (!installingWorker) return;
+                installingWorker.onstatechange = function() {
+                  if (installingWorker.state === 'installed') {
+                    if (navigator.serviceWorker.controller) {
+                      console.log('[PWA] Đã có phiên bản mới. Sẵn sàng cập nhật an toàn.');
+                      window.dispatchEvent(new CustomEvent('pwa-update-available'));
+                    } else {
+                      console.log('[PWA] Nội dung đã được lưu đệm để chạy offline.');
+                    }
+                  }
+                };
+              };
+            })
+            .catch(function(err) {
+              console.warn('[PWA] Đăng ký Service Worker thất bại:', err);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>

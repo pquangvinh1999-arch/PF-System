@@ -43,7 +43,7 @@ export const LockScreen: React.FC<LockScreenProps> = ({ pinHash, biometricEnable
     <View style={styles.root}>
       <Card style={styles.card}>
         <Text style={styles.logo}>🔒</Text>
-        <Text style={styles.title}>Vén đã khóa</Text>
+        <Text style={styles.title}>Tài Chính Nhà Bơ</Text>
         <Text style={styles.sub}>Nhập mã PIN để mở khóa dữ liệu tài chính</Text>
         <TextInput
           style={styles.input}

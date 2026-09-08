@@ -114,8 +114,8 @@ export const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.logo}>Vén</Text>
-          <Text style={styles.tagline}>Vén khéo dòng tiền của bạn</Text>
+          <Text style={styles.logo}>Tài Chính Nhà Bơ</Text>
+          <Text style={styles.tagline}>Quản lý dòng tiền thông minh</Text>
           <Badge
             label={`Bước ${step}/3: ${
               step === 1
@@ -130,7 +130,7 @@ export const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
 
         {step === 1 && (
           <Card style={styles.card}>
-            <Text style={styles.cardTitle}>Chào mừng bạn đến với Vén</Text>
+            <Text style={styles.cardTitle}>Chào mừng bạn đến với Tài Chính Nhà Bơ</Text>
             <Text style={styles.cardSubtitle}>
               Ứng dụng quản lý tài chính chuẩn chuyên gia, giúp bạn tách bạch dòng tiền gia đình và kinh doanh nhỏ lẻ.
             </Text>
@@ -284,7 +284,7 @@ export const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
           <Card style={styles.card}>
             <Text style={styles.cardTitle}>Khởi tạo số dư 2 Ví</Text>
             <Text style={styles.cardSubtitle}>
-              Tách bạch hoàn toàn Ví Cá nhân và Ví Kinh doanh theo nguyên tắc cốt lõi của Vén.
+              Tách bạch hoàn toàn Ví Cá nhân và Ví Kinh doanh theo nguyên tắc cốt lõi của Tài Chính Nhà Bơ.
             </Text>
 
             <View style={styles.accountBox}>

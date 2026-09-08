@@ -1,38 +1,46 @@
 {
   "expo": {
-    "name": "Vén",
-    "slug": "ven-finance",
+    "name": "Tài Chính Nhà Bơ",
+    "slug": "tai-chinh-nha-bo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.ven.finance",
+      "bundleIdentifier": "com.nhabo.finance",
       "buildNumber": "1",
       "infoPlist": {
-        "NSFaceIDUsageDescription": "Vén dùng Face ID để mở khóa nhanh dữ liệu tài chính của bạn."
+        "NSFaceIDUsageDescription": "Tài Chính Nhà Bơ dùng Face ID để mở khóa nhanh dữ liệu tài chính của bạn."
       }
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#0F6E5B",
+        "backgroundColor": "#F7F7F7",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.ven.finance",
+      "package": "com.nhabo.finance",
       "versionCode": 1,
       "permissions": ["USE_BIOMETRIC", "USE_FINGERPRINT", "VIBRATE", "RECEIVE_BOOT_COMPLETED"],
       "splash": {
         "image": "./assets/splash-icon.png",
         "resizeMode": "contain",
-        "backgroundColor": "#F7F5F0"
+        "backgroundColor": "#F7F7F7"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "name": "Tài Chính Nhà Bơ",
+      "shortName": "Tài Chính Nhà Bơ",
+      "lang": "vi",
+      "themeColor": "#0F6E5B",
+      "backgroundColor": "#F7F7F7",
+      "display": "standalone",
+      "orientation": "portrait",
+      "bundler": "metro"
     },
     "plugins": [
       "expo-sqlite",
